@@ -413,3 +413,37 @@ test("identidade da Jornada, copy preservada e parcelamento claro", async ({
     "A PROVA É UM DIA.A PREPARAÇÃOÉ UMA JORNADA.",
   );
 });
+
+test("hero mobile preserva proporção ao redimensionar e voltar do modo paisagem", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page
+    .locator(".hero-photo")
+    .evaluate((img: HTMLImageElement) => img.decode());
+  for (const [width, height] of [
+    [375, 812],
+    [844, 390],
+    [390, 650],
+    [430, 932],
+    [390, 844],
+  ]) {
+    await page.setViewportSize({ width, height });
+    if (width > 700) continue;
+    const photo = await page
+      .locator(".hero-photo")
+      .evaluate((img: HTMLImageElement) => {
+        const box = img.getBoundingClientRect();
+        return {
+          ratio: box.width / box.height,
+          original: img.naturalWidth / img.naturalHeight,
+          height: box.height,
+          frameHeight: img.parentElement!.getBoundingClientRect().height,
+        };
+      });
+    expect(photo.height).toBeGreaterThan(0);
+    expect(Math.abs(photo.ratio - photo.original)).toBeLessThan(0.002);
+    expect(Math.abs(photo.frameHeight - photo.height)).toBeLessThan(1);
+  }
+});

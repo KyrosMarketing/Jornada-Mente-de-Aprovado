@@ -2312,12 +2312,16 @@
       margin-top: 13px;
     }
     .hero-art {
-      height: 400px;
+      height: auto;
+      aspect-ratio: 3 / 4;
       min-height: 0;
       margin: 0 12px;
     }
     .hero-photo {
-      object-position: center 48%;
+      position: relative;
+      width: 100%;
+      height: auto;
+      object-position: center top;
     }
     .hero-art::after {
       background: linear-gradient(

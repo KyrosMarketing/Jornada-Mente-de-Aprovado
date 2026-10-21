@@ -89,6 +89,21 @@ try {
         return document.fonts.check('500 16px "Space Grotesk Variable"');
       }),
     );
+    if (width < 700) {
+      const photo = await frame
+        .locator(".hero-photo")
+        .evaluate((img: HTMLImageElement) => {
+          const box = img.getBoundingClientRect();
+          return {
+            displayed: box.width / box.height,
+            original: img.naturalWidth / img.naturalHeight,
+          };
+        });
+      assert(
+        Math.abs(photo.displayed - photo.original) < 0.002,
+        "A foto mobile deve preservar a proporção original no iframe.",
+      );
+    }
     await frame.locator('[data-module="2"] summary').click();
     await expect(frame.locator("#visual-word")).toHaveText("RESPIRE.");
     await frame
