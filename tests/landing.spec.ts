@@ -83,6 +83,20 @@ for (const width of [375, 390, 430, 768, 1440]) {
       ),
     ).toBe(true);
     await expect(page.locator('[data-buy="hero"]')).toBeInViewport();
+    const portraitCrop = await page
+      .locator(".portrait-crop")
+      .evaluate((el) => ({
+        frame: el.clientHeight,
+        image: el.querySelector("img")!.clientHeight,
+      }));
+    expect(portraitCrop.frame).toBeGreaterThan(0);
+    expect(
+      Math.abs(portraitCrop.image * 0.875 - portraitCrop.frame),
+    ).toBeLessThan(2);
+    await expect(page.locator(".marquee-divider svg").first()).toBeVisible();
+    expect(await page.locator(".marquee-track").textContent()).not.toContain(
+      "✳",
+    );
     if (width < 700) {
       await expect(page.locator(".mobile-buy")).not.toBeVisible();
       await page.locator("#jornada").scrollIntoViewIfNeeded();
@@ -273,6 +287,10 @@ test("materiais oficiais e vídeo institucional sem contato com YouTube antes do
   await expect(page.locator(".video-copy")).toContainText(
     "não é uma apresentação específica da Jornada",
   );
+  await expect(page.locator(".video-privacy")).toHaveCount(0);
+  await expect(
+    page.getByRole("link", { name: /Assistir no YouTube/ }),
+  ).toHaveCount(0);
   expect(videoRequests).toEqual([]);
   await page.route("https://www.youtube-nocookie.com/embed/**", (route) =>
     route.fulfill({

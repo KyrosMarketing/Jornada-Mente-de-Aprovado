@@ -124,6 +124,10 @@ try {
   assert.deepEqual(unexpected, []);
   assert.deepEqual(errors, []);
   const embedded = page.frameLocator("iframe");
+  await expect(embedded.locator(".video-privacy")).toHaveCount(0);
+  await expect(
+    embedded.getByRole("link", { name: /Assistir no YouTube/ }),
+  ).toHaveCount(0);
   await expect(embedded.locator(".instructor-art img")).toHaveAttribute(
     "src",
     /^data:image\/webp;base64,/,

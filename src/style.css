@@ -3699,7 +3699,7 @@
     color: var(--sage);
   }
   .hero-photo {
-    object-position: center 36%;
+    object-position: center top;
     filter: saturate(0.92);
   }
   .offer-identity {
@@ -3915,7 +3915,7 @@
       font-size: 8px;
     }
     .hero-photo {
-      object-position: center 29%;
+      object-position: center top;
     }
     .offer-identity .journey-script {
       font-size: 43px;
@@ -3992,6 +3992,44 @@
     }
     .journey-cinema::after {
       background: linear-gradient(90deg, #10142df0, #10142d50);
+    }
+  }
+}
+
+/* Recorte de apresentação: o arquivo oficial permanece intacto. */
+@layer layout {
+  .portrait-crop {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .instructor-art.has-portrait .portrait-crop img {
+    width: 100%;
+    height: 114.285714%;
+    object-fit: contain;
+    object-position: center top;
+  }
+  .marquee-divider {
+    display: inline-flex;
+    align-items: center;
+  }
+  .marquee-divider svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+@layer responsive {
+  @media (max-width: 700px) {
+    .portrait-crop {
+      height: auto;
+      aspect-ratio: 9 / 14;
+    }
+    .instructor-art.has-portrait .portrait-crop img {
+      height: 114.285714%;
+    }
+    .marquee-divider svg {
+      width: 10px;
+      height: 10px;
     }
   }
 }

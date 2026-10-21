@@ -4,7 +4,7 @@ Landing page da Preparamente, em português, com Vite, TypeScript e CSS. Sem fra
 
 ## Usar no widget HTML do WordPress / Elementor
 
-Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 687 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
+Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 759 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
 
 1. Crie uma página em rascunho no WordPress e abra no Elementor.
 2. Selecione o layout **Elementor Canvas**, use uma seção com largura total e padding/margens zero.
@@ -86,13 +86,13 @@ Copie `.env.example` para um arquivo local de ambiente apenas se precisar sobres
 
 ## Direção visual e fontes
 
-A paleta oficial foi adaptada para azul/creme como base, verde em transições, amarelo nos CTAs e rosa em detalhes. Logos e fotos oficiais foram fornecidos nos arquivos Logos.zip e Mateus.zip. O retrato foi apenas redimensionado/otimizado, sem retoque facial ou reconstrução.
+A paleta oficial foi adaptada para azul/creme como base, verde em transições, amarelo nos CTAs e rosa em detalhes. Logos e fotos oficiais foram fornecidos nos arquivos Logos.zip e Mateus.zip. O retrato foi apenas redimensionado/otimizado, sem retoque facial ou reconstrução. O enquadramento visual termina aproximadamente na linha do relógio, por uma janela CSS que preserva o arquivo original.
 
-O vídeo `sIXC3d7DKdg` aparece junto à apresentação do especialista, rotulado como institucional. O player usa youtube-nocookie.com e só é carregado por clique explícito. Há um link para assistir no YouTube. Os testes interceptam o player e verificam URL/integração; não afirmam reprodução real nos servidores do YouTube.
+O vídeo `sIXC3d7DKdg` aparece junto à apresentação do especialista, rotulado como institucional. O player usa youtube-nocookie.com e só é carregado por clique explícito. Os testes interceptam o player e verificam URL/integração; não afirmam reprodução real nos servidores do YouTube.
 
 O carrossel duplica visualmente o mesmo grupo de cinco relatos para permitir loop contínuo; a cópia é `aria-hidden` e `inert`, sem sugerir avaliações adicionais. Há pausa por hover, foco e botão; com movimento reduzido, a lista original fica estática e pode ser rolada horizontalmente.
 
-Fotografia da hero com dois estudantes: imagem ilustrativa gerada para a campanha; não representa alunos reais, depoimentos ou o psicólogo. Mockups são conceitos visuais, identificados como tal. Nenhum depoimento, registro profissional, prazo comercial ou resultado foi inventado.
+Fotografia da hero com dois jovens: composição ilustrativa gerada a partir da fotografia de referência enviada pelo PreparaMente, mantendo a referência visual das pessoas. Não é um depoimento ou resultado de alunos. Mockups são conceitos visuais, identificados como tal. Nenhum depoimento, registro profissional, prazo comercial ou resultado foi inventado.
 
 Space Grotesk Variable, Inter Variable e Caveat Variable: pacotes Fontsource, licença OFL, incluída nas dependências. A página usa apenas os arquivos latinos WOFF2. Fotos WebP de 640 e 960px, lazy loading abaixo da dobra, hero priorizada. A seção sobre a preparação usa um caminho vetorial e grade discreta nas cores da marca, sem download de imagem adicional. A assinatura tipográfica da Jornada, inspirada na referência Hotmart enviada, aparece na hero, na oferta e nos mockups.
 
