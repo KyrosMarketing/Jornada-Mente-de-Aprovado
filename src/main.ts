@@ -27,8 +27,6 @@ const arrow =
   '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.6"/></svg>';
 const down =
   '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6" stroke="currentColor" stroke-width="1.5"/></svg>';
-const mark =
-  '<svg class="brand-mark" viewBox="0 0 35 35" fill="none" aria-hidden="true"><path d="M8 27V8h12a7 7 0 0 1 0 14h-6M14 27V14h6a1 1 0 0 1 0 2h-6" stroke="currentColor" stroke-width="2.8"/><circle cx="28" cy="27" r="2" fill="currentColor"/></svg>';
 const check =
   '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4 10 4 4 8-8" stroke="currentColor" stroke-width="1.5"/></svg>';
 const purchaseUrl = checkoutUrl();
@@ -38,8 +36,10 @@ const buy = (label: string, location: string, extraClass = "") =>
     : `<button class="button ${extraClass}" type="button" data-missing-checkout>${label}${arrow}</button>`;
 const label = (number: string, text: string) =>
   `<div class="section-label"><span>${number} /</span> ${text}</div>`;
-const miniBrand = `<span class="mini-brand">${mark} PREPARAMENTE</span>`;
-const poster = `<div class="course-cover"><span class="cover-brand">PREPARAMENTE</span><span class="cover-caption">PREPARAÇÃO MENTAL<br>PARA ENEM E VESTIBULARES</span><strong>MENTE<br>DE<br><i>APROVADO.</i></strong><div class="cover-orbit" aria-hidden="true"><span></span><span></span><span></span></div><span class="cover-foot">SUA PRÓXIMA ETAPA COMEÇA AQUI. <b>${arrow}</b></span></div>`;
+const brandLogo = (dark = false) =>
+  `<img class="official-logo" src="${asset(dark ? offer.branding.logoDark : offer.branding.logoLight)}" width="531" height="118" alt="PreparaMente" />`;
+const miniBrand = `<span class="mini-brand">${brandLogo(true)}</span>`;
+const poster = `<div class="course-cover"><span class="cover-brand">${brandLogo(true)}</span><span class="cover-caption">PREPARAÇÃO MENTAL<br>PARA ENEM E VESTIBULARES</span><strong>MENTE<br>DE<br><i>APROVADO.</i></strong><div class="cover-orbit" aria-hidden="true"><span></span><span></span><span></span></div><span class="cover-foot">SUA PRÓXIMA ETAPA COMEÇA AQUI. <b>${arrow}</b></span></div>`;
 
 const faq = [
   [
@@ -76,7 +76,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
   <header class="site-header">
     <div class="header-inner container">
-      <a class="brand" href="#inicio" aria-label="Preparamente — início">${mark}<span>preparamente</span></a>
+      <a class="brand" href="#inicio" aria-label="Preparamente — início">${brandLogo()}</a>
       <span class="header-product">JORNADA MENTE<br>DE APROVADO</span>
       <nav aria-label="Navegação principal"><a href="#jornada">A Jornada</a><a href="#modulos">Os Módulos</a><a href="#quem-ensina">Quem Ensina</a><a href="#duvidas">Dúvidas</a></nav>
       ${buy(`Começar por ${price.replace(",00", "")}`, "header", "button-small")}
@@ -141,31 +141,39 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
         "",
       )}</div></div><div class="materials-art" aria-label="Conceito visual dos materiais de apoio"><div class="paper paper-back"><span>PREPARAMENTE</span><strong>DO APRENDIZADO<br>À PRÁTICA.</strong><div class="paper-lines" aria-hidden="true"></div></div><div class="paper paper-front"><span>MATERIAIS DE APOIO / JMA</span><strong>SUA MENTE.<br>SEU RITMO.<br><em>SUA JORNADA.</em></strong><div class="paper-rings" aria-hidden="true"><i></i><i></i><i></i></div><small>PREPARAÇÃO MENTAL<br>QUE ACOMPANHA VOCÊ.</small></div><span class="concept-note">CONCEITO VISUAL · NÃO REPRESENTA CAPAS OFICIAIS</span></div></div></section>
 
-    <section class="instructor-section section light" id="quem-ensina"><div class="container instructor-grid"><div class="instructor-art ${offer.instructor.portrait ? "has-portrait" : ""}">${offer.instructor.portrait ? `<img src="${escape(offer.instructor.portrait)}" alt="${offer.instructor.name}, psicólogo responsável pelo Preparamente" width="600" height="750" loading="lazy" />` : `<span class="eyebrow">A PSICOLOGIA ENCONTRA A PREPARAÇÃO.</span><div class="instructor-monogram" aria-hidden="true">m<span>t.</span></div><div class="instructor-art-name">MATEUS<br>TIUJO<span>PSICÓLOGO / PREPARAMENTE</span></div>`}</div><div class="instructor-copy">${label("05", "QUEM CAMINHA COM VOCÊ")}<h2>PREPARAÇÃO<br>MENTAL COM<br><span class="muted">QUEM ENTENDE<br>DO ASSUNTO.</span></h2><div class="instructor-name"><h3>${offer.instructor.name}</h3><p>${offer.instructor.title}</p></div><p>${offer.instructor.bio}</p><blockquote>Conhecimento da Psicologia.<br>Um olhar para a sua preparação.</blockquote><span class="instructor-signature">${miniBrand}</span></div></div></section>
+    <section class="instructor-section section light" id="quem-ensina"><div class="container instructor-grid"><div class="instructor-art has-portrait"><img src="${asset(offer.instructor.portrait!)}" alt="Retrato oficial de Mateus Tiujo, psicólogo responsável pelo Preparamente" width="720" height="1280" loading="lazy" /><span class="portrait-caption">MATEUS TIUJO <span>PSICÓLOGO / PREPARAMENTE</span></span></div><div class="instructor-copy">${label("05", "QUEM CAMINHA COM VOCÊ")}<h2>PREPARAÇÃO<br>MENTAL COM<br><span class="muted">QUEM ENTENDE<br>DO ASSUNTO.</span></h2><div class="instructor-name"><h3>${offer.instructor.name}</h3><p>${offer.instructor.title}</p></div><p>${offer.instructor.bio}</p><p>${offer.instructor.background}</p><ul class="instructor-areas" aria-label="Áreas de formação informadas pelo Preparamente">${offer.instructor.areas.map((area) => `<li>${escape(area)}</li>`).join("")}</ul><span class="instructor-signature">${miniBrand}</span></div></div>
+      <div class="container institutional-video"><div class="video-copy"><span class="eyebrow">CONHEÇA O TRABALHO POR TRÁS DA MARCA</span><h3>Antes de seguir,<br><em>conheça o Mateus.</em></h3><p>${offer.presentation.context}</p><p class="video-privacy">Ao reproduzir, você carrega conteúdo do YouTube, sujeito à <a href="https://policies.google.com/privacy" target="_top" rel="noopener">política de privacidade da plataforma</a>.</p><a class="text-link" href="https://youtu.be/${offer.presentation.youtubeId}" target="_top" rel="noopener">Assistir no YouTube ${arrow}</a></div><div class="video-panel"><button type="button" class="video-trigger" aria-label="Reproduzir vídeo institucional de Mateus Tiujo e do Preparamente"><img src="${asset(offer.presentation.poster)}" width="595" height="618" loading="lazy" alt="Mateus Tiujo apresentando uma palestra" /><span class="video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m9 5 11 7-11 7z"/></svg></span><span class="video-caption"><span>APRESENTAÇÃO INSTITUCIONAL</span>Mateus Tiujo · Preparamente</span></button></div></div>
+    </section>
 
-    ${
-      offer.testimonials.filter((t) => t.authorized).length
-        ? `<section class="testimonials section"><div class="container">${label("06", "SOBRE O TRABALHO POR TRÁS DA JORNADA")}<h2>QUEM CONHECE<br>O PREPARAMENTE.</h2><p>Relatos sobre o Preparamente e o trabalho de Mateus Tiujo. Não são avaliações de compradores desta Jornada.</p>${offer.testimonials
+    <section class="testimonials section" aria-labelledby="testimonials-title"><div class="container">${label("06", "O TRABALHO ANTES DA JORNADA")}<div class="section-heading"><div><h2 id="testimonials-title">QUEM CONHECE<br><em>O PREPARAMENTE.</em></h2><p class="testimonials-context">Relatos sobre a mentoria Preparamente e o trabalho profissional de Mateus Tiujo. <strong>Não são avaliações de compradores da Jornada Mente de Aprovado.</strong></p></div><button class="reviews-toggle" type="button" aria-pressed="false">Pausar depoimentos</button></div></div><div class="reviews-viewport" tabindex="0" role="region" aria-label="Depoimentos sobre o Preparamente e Mateus Tiujo"><div class="reviews-track">${[
+      false,
+      true,
+    ]
+      .map(
+        (clone) =>
+          `<ul class="reviews-group" ${clone ? 'aria-hidden="true" inert' : 'aria-label="Cinco relatos fornecidos pelo Preparamente"'}>${offer.testimonials
             .filter((t) => t.authorized)
             .map(
               (t) =>
-                `<figure><blockquote>${escape(t.quote)}</blockquote><figcaption>${escape(t.attribution)} · ${escape(t.context)} <a href="${escape(t.source)}" target="_blank" rel="noopener noreferrer">Ver fonte ↗</a></figcaption></figure>`,
+                `<li class="review-card"><figure><div class="review-stars" role="img" aria-label="${t.rating} de 5 estrelas"><span aria-hidden="true">★★★★★</span></div><blockquote>“${escape(t.quote)}”</blockquote><figcaption><strong>${escape(t.attribution)}</strong><span>${escape(t.context)}</span><small>Relato fornecido pelo Preparamente</small>${t.source ? `<a href="${escape(t.source)}" target="_top" rel="noopener">Ver fonte ${arrow}</a>` : ""}</figcaption></figure></li>`,
             )
-            .join("")}</div></section>`
-        : ""
-    }
+            .join("")}</ul>`,
+      )
+      .join(
+        "",
+      )}</div></div><div class="container"><p class="reviews-note">Avaliações reproduzidas a partir dos materiais oficiais fornecidos pelo Preparamente.</p></div></section>
 
-    <section class="how-section section"><div class="container">${label("06", "DO SEU JEITO. NO SEU RITMO.")}<div class="section-heading"><h2>SUA JORNADA COMEÇA<br><em>EM POUCOS PASSOS.</em></h2><p>Sem recomeçar do zero.<br>Um próximo passo na sua preparação.</p></div><ol class="steps"><li><span>01 <i>${arrow}</i></span><h3>Faça sua inscrição.</h3><p>Adquira a ${offer.name} por ${price}, com pagamento pela Hotmart.</p></li><li><span>02 <i>${arrow}</i></span><h3>Receba seu acesso.</h3><p>Após a confirmação do pagamento, siga as orientações da Hotmart para acessar o curso.</p></li><li><span>03 <i>${arrow}</i></span><h3>Assista e pratique.</h3><p>Explore os cinco módulos e os materiais no seu ritmo, dentro do prazo de acesso contratado.</p></li></ol></div></section>
+    <section class="how-section section"><div class="container">${label("07", "DO SEU JEITO. NO SEU RITMO.")}<div class="section-heading"><h2>SUA JORNADA COMEÇA<br><em>EM POUCOS PASSOS.</em></h2><p>Sem recomeçar do zero.<br>Um próximo passo na sua preparação.</p></div><ol class="steps"><li><span>01 <i>${arrow}</i></span><h3>Faça sua inscrição.</h3><p>Adquira a ${offer.name} por ${price}, com pagamento pela Hotmart.</p></li><li><span>02 <i>${arrow}</i></span><h3>Receba seu acesso.</h3><p>Após a confirmação do pagamento, siga as orientações da Hotmart para acessar o curso.</p></li><li><span>03 <i>${arrow}</i></span><h3>Assista e pratique.</h3><p>Explore os cinco módulos e os materiais no seu ritmo, dentro do prazo de acesso contratado.</p></li></ol></div></section>
 
-    <section class="offer-section section" id="inscricao"><div class="container offer-grid"><div class="offer-copy">${label("07", "SUA JORNADA COMEÇA AQUI")}<h2>PREPARE A MENTE.<br><em>CONTINUE<br>SUA JORNADA.</em></h2><h3>${offer.name}</h3><ul class="offer-includes">${["Cinco módulos com o psicólogo Mateus Tiujo", "Preparação mental para ENEM e vestibulares", "Exercícios práticos, materiais de apoio e EAFV", "Acesso digital após confirmação do pagamento", "Estudo no seu ritmo, dentro do prazo contratado"].map((t) => `<li>${check}${t}</li>`).join("")}</ul></div><div class="offer-purchase"><div class="offer-mini-poster" aria-hidden="true">${poster}</div><span class="eyebrow">UM PRÓXIMO PASSO NA SUA PREPARAÇÃO</span><p class="offer-price"><span>R$</span> ${offer.price}<span>,00</span></p>${buy("Sim, quero começar minha jornada", "offer")}<p class="purchase-note">Pagamento pela Hotmart · Conteúdo digital</p><p class="offer-conditions">${offer.accessPeriod ? `Acesso: ${escape(offer.accessPeriod)}.` : "Acesso por prazo determinado. Duração em confirmação."} ${offer.guarantee ? escape(offer.guarantee) : "Consulte as condições de garantia antes de pagar."}</p></div></div></section>
+    <section class="offer-section section" id="inscricao"><div class="container offer-grid"><div class="offer-copy">${label("08", "SUA JORNADA COMEÇA AQUI")}<h2>PREPARE A MENTE.<br><em>CONTINUE<br>SUA JORNADA.</em></h2><h3>${offer.name}</h3><ul class="offer-includes">${["Cinco módulos com o psicólogo Mateus Tiujo", "Preparação mental para ENEM e vestibulares", "Exercícios práticos, materiais de apoio e EAFV", "Acesso digital após confirmação do pagamento", "Estudo no seu ritmo, dentro do prazo contratado"].map((t) => `<li>${check}${t}</li>`).join("")}</ul></div><div class="offer-purchase"><div class="offer-mini-poster" aria-hidden="true">${poster}</div><span class="eyebrow">UM PRÓXIMO PASSO NA SUA PREPARAÇÃO</span><p class="offer-price"><span>R$</span> ${offer.price}<span>,00</span></p>${buy("Sim, quero começar minha jornada", "offer")}<p class="purchase-note">Pagamento pela Hotmart · Conteúdo digital</p><p class="offer-conditions">${offer.accessPeriod ? `Acesso: ${escape(offer.accessPeriod)}.` : "Acesso por prazo determinado. Duração em confirmação."} ${offer.guarantee ? escape(offer.guarantee) : "Consulte as condições de garantia antes de pagar."}</p></div></div></section>
 
     <section class="cinema" aria-labelledby="cinema-title"><img src="${asset("images/student-960.webp")}" width="960" height="1280" loading="lazy" alt="Estudante dedicando um momento de atenção aos estudos, em cena ilustrativa."/><div class="cinema-content container"><span class="eyebrow">PARA O DIA DA PROVA. E PARA O CAMINHO ATÉ LÁ.</span><h2 id="cinema-title">A PROVA É UM DIA.<br>A PREPARAÇÃO<br>É UMA <em>JORNADA.</em></h2><p>Cuide também da mente que acompanha você até lá.</p></div><span class="cinema-caption">IMAGEM ILUSTRATIVA</span></section>
 
-    <section class="faq-section section light" id="duvidas"><div class="container faq-grid"><div>${label("08", "CLAREZA PARA O PRÓXIMO PASSO")}<h2>AINDA TEM<br><span class="muted">DÚVIDAS?</span></h2><p>Uma decisão consciente<br>começa com informação.</p><span class="faq-symbol" aria-hidden="true">${arrow}</span></div><div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}<span class="expand-icon" aria-hidden="true"></span></summary><div><p>${escape(a)}</p></div></details>`).join("")}</div></div></section>
+    <section class="faq-section section light" id="duvidas"><div class="container faq-grid"><div>${label("09", "CLAREZA PARA O PRÓXIMO PASSO")}<h2>AINDA TEM<br><span class="muted">DÚVIDAS?</span></h2><p>Uma decisão consciente<br>começa com informação.</p><span class="faq-symbol" aria-hidden="true">${arrow}</span></div><div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}<span class="expand-icon" aria-hidden="true"></span></summary><div><p>${escape(a)}</p></div></details>`).join("")}</div></div></section>
 
     <section class="final-section section"><div class="container"><span class="eyebrow"><span class="status-dot"></span> O SEU PRÓXIMO PASSO</span><h2>A RETA FINAL<br>COMEÇA <em>NA MENTE.</em></h2><p>Você já percorreu um longo caminho de estudos.<br>Continue sua preparação com a ${offer.name}.</p><div class="final-purchase"><strong>${price}</strong>${buy("Quero dar esse próximo passo", "final")}</div><span class="final-signature">JORNADA MENTE DE APROVADO <span>—</span> POR PREPARAMENTE</span></div></section>
   </main>
-  <footer class="site-footer"><div class="container"><div class="footer-top"><a class="brand" href="#inicio">${mark}<span>preparamente</span></a><p>Conteúdo preparado.<br><span>Mente em preparação.</span></p><a class="back-top" href="#inicio" aria-label="Voltar ao início">${arrow}</a></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} Preparamente.<br>Jornada Mente de Aprovado.</span><nav aria-label="Informações legais">${[
+  <footer class="site-footer"><div class="container"><div class="footer-top"><a class="brand" href="#inicio">${brandLogo()}</a><p>Conteúdo preparado.<br><span>Mente em preparação.</span></p><a class="back-top" href="#inicio" aria-label="Voltar ao início">${arrow}</a></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} Preparamente.<br>Jornada Mente de Aprovado.</span><nav aria-label="Informações legais">${[
     ["privacy", "Política de Privacidade"],
     ["terms", "Termos de Uso"],
     ["support", "Suporte"],
@@ -183,6 +191,31 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <dialog id="consent-dialog" class="info-dialog" aria-labelledby="consent-title"><button type="button" class="dialog-close" aria-label="Fechar preferências" data-consent-close>×</button><span class="eyebrow">SUA PRIVACIDADE IMPORTA</span><h2 id="consent-title">Você escolhe.</h2><p>O armazenamento essencial guarda sua preferência. Com sua permissão, ferramentas de análise e publicidade podem medir visitas e interações. A compra acontece na Hotmart, que tem suas próprias políticas. Você pode mudar sua escolha no rodapé.</p><div class="consent-actions"><button type="button" class="button button-dark" data-consent="essential">Somente essenciais</button><button type="button" class="button" data-consent="accepted">Permitir análise e publicidade</button></div></dialog>
   <div class="toast" role="status" aria-live="polite"></div>
 `;
+
+document
+  .querySelector<HTMLButtonElement>(".video-trigger")!
+  .addEventListener("click", () => {
+    const frame = document.createElement("iframe");
+    frame.src = `https://www.youtube-nocookie.com/embed/${offer.presentation.youtubeId}?autoplay=1&rel=0&playsinline=1`;
+    frame.title =
+      "Apresentação institucional de Mateus Tiujo e do Preparamente";
+    frame.allow =
+      "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+    frame.allowFullscreen = true;
+    frame.referrerPolicy = "strict-origin-when-cross-origin";
+    document.querySelector(".video-panel")!.replaceChildren(frame);
+    frame.focus();
+  });
+const reviewSection = document.querySelector(".testimonials")!;
+const reviewToggle =
+  document.querySelector<HTMLButtonElement>(".reviews-toggle")!;
+reviewToggle.addEventListener("click", () => {
+  const paused = reviewSection.classList.toggle("is-paused");
+  reviewToggle.setAttribute("aria-pressed", String(paused));
+  reviewToggle.textContent = paused
+    ? "Retomar depoimentos"
+    : "Pausar depoimentos";
+});
 
 const header = document.querySelector(".site-header")!;
 function updateHeader() {

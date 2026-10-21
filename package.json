@@ -17,7 +17,8 @@
     "package:hostinger:release": "npm run build:release && tsx scripts/package-hostinger.ts --release",
     "test:hostinger": "tsx scripts/test-hostinger.ts",
     "package:widget": "npm run build && tsx scripts/package-widget.ts",
-    "test:widget": "tsx scripts/test-widget.ts"
+    "test:widget": "tsx scripts/test-widget.ts",
+    "widget:embed": "tsx scripts/update-widget-embed.ts"
   },
   "dependencies": {
     "@fontsource-variable/inter": "5.3.0",

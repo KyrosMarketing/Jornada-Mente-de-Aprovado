@@ -5,6 +5,23 @@ export const offer = {
   price: 67,
   currency: "BRL",
   edition: "2026",
+  branding: {
+    logoLight: "images/preparamente-creme.webp",
+    logoDark: "images/preparamente-azul.webp",
+    palette: {
+      cream: "#e7e5da",
+      green: "#02aa91",
+      navy: "#2b347c",
+      amber: "#fbaf40",
+      rose: "#d91b5c",
+    },
+  },
+  presentation: {
+    youtubeId: "sIXC3d7DKdg",
+    poster: "images/mateus-palestra.webp",
+    context:
+      "Apresentação institucional de Mateus Tiujo e do Preparamente. Este vídeo não é uma apresentação específica da Jornada Mente de Aprovado.",
+  },
   HOTMART_CHECKOUT_URL: "https://pay.hotmart.com/G108112534E",
   accessPeriod: null as string | null,
   guarantee: null as string | null,
@@ -25,8 +42,16 @@ export const offer = {
   instructor: {
     name: "Mateus Tiujo",
     title: "Psicólogo · Criador do Preparamente",
-    portrait: null as string | null,
+    portrait: "images/mateus-retrato.webp" as string | null,
     bio: "Mateus Tiujo é o psicólogo por trás do Preparamente. Seu trabalho conecta conhecimentos da Psicologia às dificuldades vividas por estudantes durante a preparação para vestibulares, com atenção à ansiedade, constância, organização e aspectos emocionais da aprendizagem.",
+    background:
+      "Ao lado de Kaori, também psicóloga, fundou o Preparamente a partir da experiência com vestibulandos que precisavam cuidar da rotina e dos aspectos emocionais da preparação.",
+    areas: [
+      "Psicologia Clínica",
+      "Terapia Cognitivo-Comportamental",
+      "Avaliação Psicológica",
+      "Neuropsicologia",
+    ],
   },
   materials: [
     {
@@ -61,13 +86,59 @@ export const offer = {
       confirmed: false,
     },
   ],
-  // Only approved, sourced, attributed testimonials belong here. Empty by design.
-  testimonials: [] as {
+  // Transcribed from the official reference supplied by the user. No source links were supplied.
+  testimonials: [
+    {
+      quote:
+        "A mentoria Preparamente está sendo essencial para o meu desempenho e saúde mental. O acompanhamento está me ajudando a encontrar o equilíbrio que eu preciso nos estudos. Os profissionais são extremamente atenciosos, disponíveis e oferecem todo o suporte necessário. Com certeza, a Preparamente me deixa cada dia mais confiante e perto da minha aprovação!",
+      attribution: "Isabela C.",
+      context: "Mentoria Preparamente",
+      source: null,
+      authorized: true,
+      rating: 5,
+    },
+    {
+      quote:
+        "O Mateus é um excelente profissional, muito didático nos atendimentos e técnicas de manejo, gosto muito da sua abordagem baseada em evidências, tem me ajudado de maneira objetiva e prática.",
+      attribution: "Alex G.",
+      context: "Avaliação no Google",
+      source: null,
+      authorized: true,
+      rating: 5,
+    },
+    {
+      quote:
+        "O Mateus é um excelente profissional! Ele me auxiliou/auxilia a entender meus comportamentos, refletir e a evoluir, por meio de conversas, desafios e feedbacks. Recomendo seu trabalho sem medo algum.",
+      attribution: "Yan S.",
+      context: "Avaliação no Google",
+      source: null,
+      authorized: true,
+      rating: 5,
+    },
+    {
+      quote:
+        "Excelente trabalho, me ajuda a tempos com suas técnicas, mente blindada graças a você, muito obrigado Mateus.",
+      attribution: "Pedro E.",
+      context: "Avaliação no Google",
+      source: null,
+      authorized: true,
+      rating: 5,
+    },
+    {
+      quote: "Ótimos profissionais, ótimas pessoas, parabéns pelo trabalho!!",
+      attribution: "Vinicius A.",
+      context: "Avaliação no Google",
+      source: null,
+      authorized: true,
+      rating: 5,
+    },
+  ] as {
     quote: string;
     attribution: string;
     context: string;
-    source: string;
+    source: string | null;
     authorized: boolean;
+    rating: number;
   }[],
 };
 

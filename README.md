@@ -4,11 +4,11 @@ Landing page da Preparamente, em português, com Vite, TypeScript e CSS. Sem fra
 
 ## Usar no widget HTML do WordPress / Elementor
 
-Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 319 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
+Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 499 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
 
 1. Crie uma página em rascunho no WordPress e abra no Elementor.
 2. Selecione o layout **Elementor Canvas**, use uma seção com largura total e padding/margens zero.
-3. Adicione o widget **HTML** e cole o código de `distribution/colar-no-widget.html`, quando disponibilizado.
+3. Adicione o widget **HTML** e cole o código de `distribution/colar-no-widget.html`.
 4. Clique em **Pré-visualizar alterações** para abrir a versão navegável em outra aba. Scripts do widget podem não executar dentro do editor.
 5. Revise a página antes de publicar. O endereço pode ser `/jornada-mente-de-aprovado/` no domínio já existente; não é necessário subdomínio ou nova hospedagem.
 
@@ -16,7 +16,7 @@ O iframe mantém a navegação interna, os accordions, a barra mobile e a prefer
 
 Esta é uma prévia `noindex`. Configure também o rascunho/noindex na página pai do WordPress. O título, a descrição, o canonical e o Open Graph da **página WordPress** devem ser configurados no seu plugin de SEO antes da publicação comercial, pois metadados internos do iframe não substituem os da página pai.
 
-Para atualizar a versão incorporada: edite a oferta, execute `npm run package:widget`, revise/teste com `npm run test:widget`, disponibilize o novo HTML e atualize a revisão fixa e o hash de integridade no código do widget. Nunca troque o arquivo silenciosamente por scripts desconhecidos.
+Para atualizar a versão incorporada: edite a oferta, execute `npm run package:widget` e `npm test`, revise e salve/envie o novo HTML ao GitHub. Depois execute `npm run widget:embed -- <SHA-completo-do-commit>` para atualizar a revisão fixa e o hash de integridade, rode `npm run test:widget` e salve/envie o código de incorporação atualizado. Substitua o bloco antigo no Elementor, pois a versão é intencionalmente fixa. O teste de widget usa exatamente esse bloco, com a entrega externa interceptada e verificação de integridade ativa no navegador. Nunca troque o arquivo silenciosamente por scripts desconhecidos.
 
 ## Alternativa: arquivos estáticos na Hostinger
 
@@ -59,8 +59,8 @@ As informações pendentes aparecem de forma transparente na revisão. Política
 1. Confirme prazo de acesso, garantia e formas de pagamento desta oferta.
 2. Confirme empresa e CNPJ responsáveis pela Jornada. A empresa citada na referência antiga **não** foi automaticamente atribuída à nova oferta.
 3. Informe URLs oficiais de Privacidade, Termos e Suporte, e `siteUrl` com domínio HTTPS definitivo.
-4. Revise módulos, EAFV, materiais e apresentação profissional de Mateus. O workbook, ebooks e diário estão desativados até confirmação. Os depoimentos estão ocultos; publique apenas relatos autorizados, com identificação, contexto e fonte.
-5. Opcionalmente forneça retrato oficial autorizado em `instructor.portrait`. A composição tipográfica atual não simula uma fotografia do profissional.
+4. Revise módulos, EAFV, materiais e apresentação profissional de Mateus. O workbook, ebooks e diário estão desativados até confirmação. Os cinco depoimentos fornecidos pelo Preparamente estão identificados pela origem informada e se referem à mentoria ou ao trabalho profissional, sem atribuir experiências a compradores da Jornada. Não foram inventados links de avaliações.
+5. O retrato oficial enviado já está integrado, com proporções e traços preservados. A biografia usa as informações fornecidas pelo Preparamente; não adiciona registro profissional, tempo de atuação ou títulos de instituições não confirmados.
 6. Depois da revisão real, marque `publication.contentApproved` e `publication.instructorProfileApproved` como `true`.
 7. Execute `npm run build:release` e publique `dist/` em um host estático HTTPS.
 
@@ -86,7 +86,13 @@ Copie `.env.example` para um arquivo local de ambiente apenas se precisar sobres
 
 ## Direção visual e fontes
 
-Fotografia cinematográfica ilustrativa gerada para a campanha; não representa uma aluna real, depoimento ou o psicólogo. Mockups são conceitos visuais, identificados como tal. Nenhum depoimento, registro profissional, prazo comercial ou resultado foi inventado.
+A paleta oficial foi adaptada para azul/creme como base, verde em transições, amarelo nos CTAs e rosa em detalhes. Logos e fotos oficiais foram fornecidos nos arquivos Logos.zip e Mateus.zip. O retrato foi apenas redimensionado/otimizado, sem retoque facial ou reconstrução.
+
+O vídeo `sIXC3d7DKdg` aparece junto à apresentação do especialista, rotulado como institucional. O player usa youtube-nocookie.com e só é carregado por clique explícito. Há um link para assistir no YouTube. Os testes interceptam o player e verificam URL/integração; não afirmam reprodução real nos servidores do YouTube.
+
+O carrossel duplica visualmente o mesmo grupo de cinco relatos para permitir loop contínuo; a cópia é `aria-hidden` e `inert`, sem sugerir avaliações adicionais. Há pausa por hover, foco e botão; com movimento reduzido, a lista original fica estática e pode ser rolada horizontalmente.
+
+Fotografia cinematográfica da estudante: imagem ilustrativa gerada para a campanha; não representa uma aluna real, depoimento ou o psicólogo. Mockups são conceitos visuais, identificados como tal. Nenhum depoimento, registro profissional, prazo comercial ou resultado foi inventado.
 
 Space Grotesk Variable e Inter Variable: pacotes Fontsource, licença OFL, incluída nas dependências. A página usa apenas os arquivos latinos WOFF2. Fotos WebP de 640 e 960px, lazy loading abaixo da dobra, hero priorizada. A mesma foto é reaproveitada na seção cinematográfica, sem download duplicado da mesma versão.
 

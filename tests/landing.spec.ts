@@ -239,3 +239,125 @@ test("rastreadores configurados só carregam com consentimento e clique nunca di
   await page.waitForLoadState();
   await expect(scripts).toHaveCount(0);
 });
+
+test("materiais oficiais e vídeo institucional sem contato com YouTube antes do play", async ({
+  page,
+}) => {
+  const videoRequests: string[] = [];
+  page.on("request", (req) => {
+    if (/youtube|ytimg/.test(req.url())) videoRequests.push(req.url());
+  });
+  await page.goto("/");
+  const logo = page.locator(".site-header .official-logo");
+  await expect(logo).toHaveAttribute("alt", "PreparaMente");
+  await expect
+    .poll(() =>
+      logo.evaluate(
+        (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
+  const portrait = page.locator(".instructor-art img");
+  await portrait.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() =>
+      portrait.evaluate(
+        (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
+  await expect(portrait).toHaveAttribute("src", /mateus-retrato\.webp/);
+  await expect(portrait).toHaveCSS("object-fit", "contain");
+  await expect(page.locator(".video-copy")).toContainText(
+    "não é uma apresentação específica da Jornada",
+  );
+  expect(videoRequests).toEqual([]);
+  await page.route("https://www.youtube-nocookie.com/embed/**", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body: "<p>Player interceptado para teste; sem reprodução externa.</p>",
+    }),
+  );
+  await page
+    .getByRole("button", {
+      name: "Reproduzir vídeo institucional de Mateus Tiujo e do Preparamente",
+    })
+    .click();
+  await expect(page.locator(".video-panel iframe")).toHaveAttribute(
+    "src",
+    "https://www.youtube-nocookie.com/embed/sIXC3d7DKdg?autoplay=1&rel=0&playsinline=1",
+  );
+  await expect(page.locator(".video-panel iframe")).toHaveAttribute(
+    "title",
+    /institucional/,
+  );
+  expect(videoRequests.length).toBe(1);
+});
+
+test("cinco relatos autênticos, loop sem salto, pausa e modo de movimento reduzido", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const group = page.getByRole("list", {
+    name: "Cinco relatos fornecidos pelo Preparamente",
+  });
+  await expect(group.getByRole("listitem")).toHaveCount(5);
+  await expect(group.locator("figcaption strong")).toHaveText([
+    "Isabela C.",
+    "Alex G.",
+    "Yan S.",
+    "Pedro E.",
+    "Vinicius A.",
+  ]);
+  await expect(page.locator(".testimonials-context")).toContainText(
+    "Não são avaliações de compradores da Jornada",
+  );
+  await expect(group.getByRole("link")).toHaveCount(0);
+  await page.getByRole("button", { name: "Pausar depoimentos" }).click();
+  await expect(page.locator(".reviews-track")).toHaveCSS(
+    "animation-play-state",
+    "paused",
+  );
+  await page.getByRole("button", { name: "Retomar depoimentos" }).click();
+  await expect(page.locator(".reviews-track")).toHaveCSS(
+    "animation-play-state",
+    "running",
+  );
+  await page.locator(".reviews-viewport").hover();
+  await expect(page.locator(".reviews-track")).toHaveCSS(
+    "animation-play-state",
+    "paused",
+  );
+  const seam = await page.locator(".reviews-track").evaluate((track) => {
+    const groups = track.querySelectorAll<HTMLElement>(".reviews-group");
+    const animation = track.getAnimations()[0];
+    const duration = Number(animation.effect!.getTiming().duration);
+    animation.pause();
+    animation.currentTime = duration - 1;
+    const last = groups[1].getBoundingClientRect().left;
+    animation.currentTime = duration + 1;
+    const first = groups[0].getBoundingClientRect().left;
+    return {
+      difference: Math.abs(last - first),
+      matching: groups[0].textContent === groups[1].textContent,
+      hidden: groups[1].getAttribute("aria-hidden"),
+      inert: groups[1].inert,
+    };
+  });
+  expect(seam.difference).toBeLessThan(1);
+  expect(seam.matching && seam.inert).toBe(true);
+  expect(seam.hidden).toBe("true");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.reload();
+  await expect(page.locator(".reviews-track")).toHaveCSS(
+    "animation-name",
+    "none",
+  );
+  await expect(
+    page.locator('.reviews-group[aria-hidden="true"]'),
+  ).not.toBeVisible();
+  await expect(page.locator(".reviews-viewport")).toHaveCSS(
+    "overflow-x",
+    "auto",
+  );
+});

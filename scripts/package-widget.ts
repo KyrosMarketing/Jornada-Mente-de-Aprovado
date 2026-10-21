@@ -1,4 +1,10 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+} from "node:fs";
 import { basename, extname, join, resolve } from "node:path";
 
 const dist = resolve("dist");
@@ -31,10 +37,9 @@ html = html.replace(/<link\b[^>]*rel="stylesheet"[^>]*>/g, (tag) => {
   return `<style>${css.replace(/<\/style/gi, "<\\/style")}</style>`;
 });
 const images = Object.fromEntries(
-  ["student-640.webp", "student-960.webp"].map((name) => [
-    `images/${name}`,
-    dataUri(join(dist, "images", name)),
-  ]),
+  readdirSync(join(dist, "images"))
+    .filter((name) => /\.(webp|svg)$/.test(name))
+    .map((name) => [`images/${name}`, dataUri(join(dist, "images", name))]),
 );
 html = html.replace(
   '<div id="app"></div>',
