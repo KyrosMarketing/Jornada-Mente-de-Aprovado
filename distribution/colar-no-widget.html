@@ -1,19 +1,21 @@
-<div id="jornada-preview" style="width:100%;background:#0b0d0c;color:#f5f5ee">
+<div id="jornada-preview" style="width:100%;background:#10142d;color:#e7e5da">
   <p style="padding:24px;font-family:Arial,sans-serif">Carregando a Jornada…</p>
 </div>
 <script>
 (async function () {
   const area = document.getElementById('jornada-preview');
   try {
-    const resposta = await fetch('https://raw.githubusercontent.com/KyrosMarketing/Jornada-Mente-de-Aprovado/8e773e09c5c5562014eb69788e8ac8cf21d708f4/distribution/jornada-widget.html', {
+    const resposta = await fetch('https://raw.githubusercontent.com/KyrosMarketing/Jornada-Mente-de-Aprovado/ffb2657068d71b19dd082f17f2a3de9433fe79f8/distribution/jornada-widget.html', {
       credentials: 'omit',
-      integrity: 'sha384-xIbF5bdyIH08l1T0MUw73ieu8YOhCGA9eW4e159AQjzvLXWc8fDEmodG8h8ZypfI'
+      integrity: 'sha384-4Jv7V9/hS+dW4FfCRBHfE9Aut9poGhJmnxcsU4zm1Z47u3edjN4QQZy7ArVZC8Ic'
     });
     if (!resposta.ok) throw new Error('Falha no carregamento');
     const quadro = document.createElement('iframe');
     quadro.title = 'Jornada Mente de Aprovado';
-    quadro.style.cssText = 'display:block;width:100%;height:100dvh;min-height:600px;border:0;background:#0b0d0c';
+    quadro.style.cssText = 'display:block;width:100%;height:100dvh;min-height:600px;border:0;background:#10142d';
     quadro.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-top-navigation-by-user-activation');
+    quadro.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+    quadro.allowFullscreen = true;
     quadro.dataset.campaignSearch = window.location.search;
     quadro.srcdoc = await resposta.text();
     area.replaceChildren(quadro);
