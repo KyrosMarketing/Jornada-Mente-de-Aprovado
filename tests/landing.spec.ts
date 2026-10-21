@@ -414,7 +414,7 @@ test("identidade da Jornada, copy preservada e parcelamento claro", async ({
   );
 });
 
-test("hero mobile preserva proporção ao redimensionar e voltar do modo paisagem", async ({
+test("hero mobile preserva proporção e separação da esteira ao redimensionar", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -440,10 +440,69 @@ test("hero mobile preserva proporção ao redimensionar e voltar do modo paisage
           original: img.naturalWidth / img.naturalHeight,
           height: box.height,
           frameHeight: img.parentElement!.getBoundingClientRect().height,
+          photoBottom: box.bottom,
+          footer: document
+            .querySelector(".hero-bottom")!
+            .getBoundingClientRect()
+            .toJSON(),
+          heroBottom: document.querySelector(".hero")!.getBoundingClientRect()
+            .bottom,
+          marqueeTop: document
+            .querySelector(".marquee")!
+            .getBoundingClientRect().top,
         };
       });
     expect(photo.height).toBeGreaterThan(0);
     expect(Math.abs(photo.ratio - photo.original)).toBeLessThan(0.002);
     expect(Math.abs(photo.frameHeight - photo.height)).toBeLessThan(1);
+    expect(photo.footer.top).toBeGreaterThanOrEqual(photo.photoBottom - 1);
+    expect(photo.marqueeTop).toBeGreaterThanOrEqual(photo.footer.bottom - 1);
+    expect(photo.heroBottom).toBeGreaterThanOrEqual(photo.footer.bottom - 1);
+    expect(photo.marqueeTop - photo.photoBottom).toBeGreaterThanOrEqual(40);
+  }
+});
+
+test("hero reserva espaço para a foto e a esteira durante carregamento lento", async ({
+  page,
+}) => {
+  let releaseImage!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    releaseImage = resolve;
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.route("**/images/jornada-campus-*.webp", async (route) => {
+    await gate;
+    await route.continue();
+  });
+  try {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator(".hero-photo")).toBeVisible();
+    for (const loaded of [false, true]) {
+      if (loaded) {
+        releaseImage();
+        await page
+          .locator(".hero-photo")
+          .evaluate((img: HTMLImageElement) => img.decode());
+      }
+      const layout = await page
+        .locator(".hero-photo")
+        .evaluate((img: HTMLImageElement) => ({
+          imageBottom: img.getBoundingClientRect().bottom,
+          footerTop: document
+            .querySelector(".hero-bottom")!
+            .getBoundingClientRect().top,
+          footerBottom: document
+            .querySelector(".hero-bottom")!
+            .getBoundingClientRect().bottom,
+          marqueeTop: document
+            .querySelector(".marquee")!
+            .getBoundingClientRect().top,
+        }));
+      expect(layout.footerTop).toBeGreaterThanOrEqual(layout.imageBottom - 1);
+      expect(layout.marqueeTop).toBeGreaterThanOrEqual(layout.footerBottom - 1);
+      expect(layout.marqueeTop - layout.imageBottom).toBeGreaterThanOrEqual(40);
+    }
+  } finally {
+    releaseImage();
   }
 });

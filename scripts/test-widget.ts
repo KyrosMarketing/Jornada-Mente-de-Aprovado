@@ -97,11 +97,27 @@ try {
           return {
             displayed: box.width / box.height,
             original: img.naturalWidth / img.naturalHeight,
+            imageBottom: box.bottom,
+            footerTop: document
+              .querySelector(".hero-bottom")!
+              .getBoundingClientRect().top,
+            footerBottom: document
+              .querySelector(".hero-bottom")!
+              .getBoundingClientRect().bottom,
+            marqueeTop: document
+              .querySelector(".marquee")!
+              .getBoundingClientRect().top,
           };
         });
       assert(
         Math.abs(photo.displayed - photo.original) < 0.002,
         "A foto mobile deve preservar a proporção original no iframe.",
+      );
+      assert(photo.footerTop >= photo.imageBottom - 1);
+      assert(photo.marqueeTop >= photo.footerBottom - 1);
+      assert(
+        photo.marqueeTop - photo.imageBottom >= 40,
+        "A esteira deve permanecer abaixo da foto, com respiro.",
       );
     }
     await frame.locator('[data-module="2"] summary').click();

@@ -2241,7 +2241,7 @@
       height: 12px;
     }
     .hero {
-      grid-template-columns: 1fr;
+      display: block;
     }
     .hero-copy {
       padding: 32px 22px 29px;
@@ -2312,13 +2312,15 @@
       margin-top: 13px;
     }
     .hero-art {
+      display: block;
       height: auto;
-      aspect-ratio: 3 / 4;
       min-height: 0;
       margin: 0 12px;
+      isolation: isolate;
     }
     .hero-photo {
-      position: relative;
+      display: block;
+      position: static;
       width: 100%;
       height: auto;
       object-position: center top;
@@ -2360,7 +2362,7 @@
       font-size: 6px;
     }
     .hero-bottom {
-      padding: 19px 22px;
+      padding: 24px 22px;
       font-size: 6px;
       gap: 15px;
       align-items: center;

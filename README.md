@@ -114,3 +114,5 @@ public/images/      Imagens locais e Open Graph
 A condição solicitada é **12x de R$ 6,93**, total parcelado de **R$ 83,16**, com **R$ 67,00 à vista**. A oferta e o FAQ distinguem os dois valores, sem alegar parcelamento sem juros. Os dados ficam centralizados em `src/offer.ts`.
 
 Na hero mobile, a foto ocupa a largura disponível com altura automática e proporção original 3:4, inclusive ao redimensionar a janela. No desktop, o enquadramento continua usando `object-fit: cover`.
+
+A hero usa fluxo de blocos no mobile: foto, rodapé da hero e esteira ocupam espaços consecutivos. Os testes conferem a separação durante carregamento lento e após redimensionamento. A execução direta do WebKit ficou indisponível neste ambiente por bloqueio do download do navegador.
