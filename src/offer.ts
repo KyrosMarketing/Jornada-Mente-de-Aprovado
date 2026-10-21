@@ -3,6 +3,7 @@ export const offer = {
   name: "Jornada Mente de Aprovado",
   brand: "Preparamente",
   price: 67,
+  paymentPlan: { installments: 12, amount: 6.93 },
   currency: "BRL",
   edition: "2026",
   branding: {
@@ -219,3 +220,25 @@ export const price = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: offer.currency,
 }).format(offer.price);
+
+const money = (value: number) =>
+  new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: offer.currency,
+  }).format(value);
+export const installmentPrice = money(offer.paymentPlan.amount);
+export const installmentTotal = money(
+  (Math.round(offer.paymentPlan.amount * 100) *
+    offer.paymentPlan.installments) /
+    100,
+);
+export const installmentLabel = `${offer.paymentPlan.installments}x de ${installmentPrice}`;
+export const marqueeWords = [
+  "Foco",
+  "Disciplina",
+  "Equilíbrio",
+  "Propósito",
+  "Confiança",
+  "Alta performance",
+  "Organização",
+];

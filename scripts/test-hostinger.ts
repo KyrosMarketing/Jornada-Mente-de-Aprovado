@@ -74,7 +74,9 @@ try {
     await page.setViewportSize({ width, height: 900 });
     assert.equal((await page.goto(url))?.status(), 200);
     await page.evaluate(() => document.fonts.ready);
-    assert((await page.locator("h1").innerText()).includes("SUA MENTE?"));
+    await expect(page.locator("h1")).toHaveAccessibleName(
+      "Jornada Mente de Aprovado",
+    );
     assert.equal(await page.locator("[data-module]").count(), 5);
     assert(
       await page
@@ -108,9 +110,7 @@ try {
     await page.locator('[data-module="2"] summary').click();
     await expect(page.locator("#visual-word")).toHaveText("RESPIRE.");
     await page.locator(".cinema").scrollIntoViewIfNeeded();
-    await page
-      .locator(".cinema img")
-      .evaluate((img: HTMLImageElement) => img.decode());
+    await expect(page.locator(".journey-path")).toBeVisible();
     console.log(
       `ZIP extraído em subpasta: layout ${width}px, imagens, fontes, módulos, checkout e noindex aprovados.`,
     );

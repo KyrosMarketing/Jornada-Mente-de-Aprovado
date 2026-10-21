@@ -4,7 +4,7 @@ Landing page da Preparamente, em português, com Vite, TypeScript e CSS. Sem fra
 
 ## Usar no widget HTML do WordPress / Elementor
 
-Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 499 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
+Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 687 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
 
 1. Crie uma página em rascunho no WordPress e abra no Elementor.
 2. Selecione o layout **Elementor Canvas**, use uma seção com largura total e padding/margens zero.
@@ -92,9 +92,9 @@ O vídeo `sIXC3d7DKdg` aparece junto à apresentação do especialista, rotulado
 
 O carrossel duplica visualmente o mesmo grupo de cinco relatos para permitir loop contínuo; a cópia é `aria-hidden` e `inert`, sem sugerir avaliações adicionais. Há pausa por hover, foco e botão; com movimento reduzido, a lista original fica estática e pode ser rolada horizontalmente.
 
-Fotografia cinematográfica da estudante: imagem ilustrativa gerada para a campanha; não representa uma aluna real, depoimento ou o psicólogo. Mockups são conceitos visuais, identificados como tal. Nenhum depoimento, registro profissional, prazo comercial ou resultado foi inventado.
+Fotografia da hero com dois estudantes: imagem ilustrativa gerada para a campanha; não representa alunos reais, depoimentos ou o psicólogo. Mockups são conceitos visuais, identificados como tal. Nenhum depoimento, registro profissional, prazo comercial ou resultado foi inventado.
 
-Space Grotesk Variable e Inter Variable: pacotes Fontsource, licença OFL, incluída nas dependências. A página usa apenas os arquivos latinos WOFF2. Fotos WebP de 640 e 960px, lazy loading abaixo da dobra, hero priorizada. A mesma foto é reaproveitada na seção cinematográfica, sem download duplicado da mesma versão.
+Space Grotesk Variable, Inter Variable e Caveat Variable: pacotes Fontsource, licença OFL, incluída nas dependências. A página usa apenas os arquivos latinos WOFF2. Fotos WebP de 640 e 960px, lazy loading abaixo da dobra, hero priorizada. A seção sobre a preparação usa um caminho vetorial e grade discreta nas cores da marca, sem download de imagem adicional. A assinatura tipográfica da Jornada, inspirada na referência Hotmart enviada, aparece na hero, na oferta e nos mockups.
 
 O site de referência e a Hotmart retornaram bloqueio do proxy do ambiente na consulta de rede. O conteúdo editorial foi implementado a partir do briefing fornecido. Não foi feita validação independente de credenciais ou extração de imagens/depoimentos do site original.
 
@@ -110,3 +110,5 @@ scripts/check-release.ts  Verificação das condições para publicação
 tests/landing.spec.ts     Navegação, mobile, privacidade e WCAG
 public/images/      Imagens locais e Open Graph
 ```
+
+A condição solicitada é **12x de R$ 6,93**, total parcelado de **R$ 83,16**, com **R$ 67,00 à vista**. A oferta e o FAQ distinguem os dois valores, sem alegar parcelamento sem juros. Os dados ficam centralizados em `src/offer.ts`.

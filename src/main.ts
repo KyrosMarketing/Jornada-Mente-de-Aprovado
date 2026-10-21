@@ -1,5 +1,13 @@
 import "./style.css";
-import { modules, offer, price } from "./offer";
+import {
+  modules,
+  offer,
+  price,
+  installmentPrice,
+  installmentTotal,
+  installmentLabel,
+  marqueeWords,
+} from "./offer";
 import { checkoutUrl } from "./checkout";
 import {
   consentStatus,
@@ -39,7 +47,9 @@ const label = (number: string, text: string) =>
 const brandLogo = (dark = false) =>
   `<img class="official-logo" src="${asset(dark ? offer.branding.logoDark : offer.branding.logoLight)}" width="531" height="118" alt="PreparaMente" />`;
 const miniBrand = `<span class="mini-brand">${brandLogo(true)}</span>`;
-const poster = `<div class="course-cover"><span class="cover-brand">${brandLogo(true)}</span><span class="cover-caption">PREPARAÇÃO MENTAL<br>PARA ENEM E VESTIBULARES</span><strong>MENTE<br>DE<br><i>APROVADO.</i></strong><div class="cover-orbit" aria-hidden="true"><span></span><span></span><span></span></div><span class="cover-foot">SUA PRÓXIMA ETAPA COMEÇA AQUI. <b>${arrow}</b></span></div>`;
+const productIdentity = (tag: "h1" | "h2", extraClass = "", id = "") =>
+  `<${tag} ${id ? `id="${id}"` : ""} class="journey-wordmark ${extraClass}" aria-label="${offer.name}"><span class="journey-script">Jornada</span><span class="journey-name">MENTE DE</span><span class="journey-stamp">APROVADO</span></${tag}>`;
+const poster = `<div class="course-cover"><span class="cover-brand">${brandLogo(true)}</span><span class="cover-caption">PREPARAÇÃO MENTAL<br>PARA ENEM E VESTIBULARES</span><span class="cover-journey">Jornada</span><strong>MENTE DE<br><i>APROVADO</i></strong><div class="cover-orbit" aria-hidden="true"><span></span><span></span><span></span></div><span class="cover-foot">SUA PRÓXIMA ETAPA COMEÇA AQUI. <b>${arrow}</b></span></div>`;
 
 const faq = [
   [
@@ -64,7 +74,7 @@ const faq = [
   ],
   [
     "Como posso pagar? Existe garantia?",
-    `${offer.paymentMethods || "As formas de pagamento disponíveis são as exibidas no checkout da Hotmart."} ${offer.guarantee || "A política de garantia desta oferta ainda está em confirmação. Consulte as condições aplicáveis antes de pagar, respeitados os direitos legais do consumidor."}`,
+    `${installmentLabel} (total de ${installmentTotal}), ou ${price} à vista. ${offer.paymentMethods || "As formas de pagamento disponíveis são as exibidas no checkout da Hotmart."} ${offer.guarantee || "A política de garantia desta oferta ainda está em confirmação. Consulte as condições aplicáveis antes de pagar, respeitados os direitos legais do consumidor."}`,
   ],
   [
     "O curso substitui acompanhamento psicológico?",
@@ -76,8 +86,8 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
   <header class="site-header">
     <div class="header-inner container">
-      <a class="brand" href="#inicio" aria-label="Preparamente — início">${brandLogo()}</a>
-      <span class="header-product">JORNADA MENTE<br>DE APROVADO</span>
+      <a class="header-journey" href="#inicio" aria-label="Jornada Mente de Aprovado — início"><span>Jornada</span><strong>MENTE DE APROVADO</strong><small>POR PREPARAMENTE</small></a>
+      <a class="brand brand-endorsement" href="#quem-ensina" aria-label="Por PreparaMente"><span>POR</span>${brandLogo()}</a>
       <nav aria-label="Navegação principal"><a href="#jornada">A Jornada</a><a href="#modulos">Os Módulos</a><a href="#quem-ensina">Quem Ensina</a><a href="#duvidas">Dúvidas</a></nav>
       ${buy(`Começar por ${price.replace(",00", "")}`, "header", "button-small")}
     </div>
@@ -86,15 +96,15 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     <section class="hero" id="inicio" aria-labelledby="hero-title">
       <div class="hero-copy">
         <div class="eyebrow"><span class="status-dot"></span> PREPARAMENTE APRESENTA <span class="eyebrow-divider">/</span> EDIÇÃO ${offer.edition}</div>
-        <p class="hero-product">JORNADA MENTE DE APROVADO</p>
-        <h1 id="hero-title">VOCÊ ESTUDOU<br>PARA A PROVA.<br>MAS PREPAROU<br><em>SUA MENTE?</em></h1>
+        ${productIdentity("h1", "hero-identity", "hero-title")}
+        <h2 class="hero-promise">VOCÊ ESTUDOU PARA A PROVA.<br>MAS PREPAROU <em>SUA MENTE?</em></h2>
         <p class="hero-description">Uma jornada prática com o psicólogo <strong>Mateus Tiujo</strong> para trabalhar foco, disciplina, manejo da ansiedade e autoconfiança no ENEM e nos vestibulares.</p>
         <p class="hero-specs">5 MÓDULOS <span>·</span> EXERCÍCIOS PRÁTICOS <span>·</span> ACESSO ONLINE</p>
-        <div class="hero-purchase"><div class="hero-price"><span>SUA PRÓXIMA ETAPA POR</span><strong>${price}</strong></div>${buy("Quero preparar minha mente", "hero")}</div>
+        <div class="hero-purchase"><div class="hero-price"><span>SUA PRÓXIMA ETAPA POR</span><strong>${price}</strong><small>à vista</small></div>${buy("Quero preparar minha mente", "hero")}</div>
         <p class="purchase-note"><span aria-hidden="true">⌑</span> Compra pela Hotmart · Acesso após confirmação do pagamento</p>
       </div>
       <div class="hero-art">
-        <img class="hero-photo" src="${asset("images/student-960.webp")}" srcset="${asset("images/student-640.webp")} 640w, ${asset("images/student-960.webp")} 960w" sizes="(max-width: 700px) 100vw, 50vw" width="960" height="1280" alt="Cena ilustrativa de uma estudante concentrada em suas anotações." fetchpriority="high" />
+        <img class="hero-photo" src="${asset("images/jornada-campus-960.webp")}" srcset="${asset("images/jornada-campus-640.webp")} 640w, ${asset("images/jornada-campus-960.webp")} 960w" sizes="(max-width: 700px) 100vw, 50vw" width="960" height="1280" alt="Cena ilustrativa de dois estudantes caminhando com confiança em um ambiente de preparação e desenvolvimento." fetchpriority="high" />
         <div class="photo-top"><span>CONTEÚDO PREPARADO.<br>MENTE EM PREPARAÇÃO.</span><span class="crosshair" aria-hidden="true">+</span></div>
         <div class="hero-vertical" aria-hidden="true">FOCO. EQUILÍBRIO. CONFIANÇA.</div>
         <div class="image-caption"><span class="caption-line"></span><p>O próximo passo<br><strong>começa em você.</strong></p><a href="#jornada" aria-label="Conhecer a jornada">${down}</a></div>
@@ -102,7 +112,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
       </div>
       <div class="hero-bottom"><span>PREPARAÇÃO QUE VAI ALÉM DO CONTEÚDO.</span><a href="#jornada">EXPLORE A JORNADA ${down}</a></div>
     </section>
-    <div class="marquee" role="img" aria-label="Foco, disciplina, equilíbrio, propósito, confiança"><div class="marquee-track" aria-hidden="true">${Array.from({ length: 4 }, () => "<span>FOCO <b>✳</b> DISCIPLINA <b>✳</b> EQUILÍBRIO <b>✳</b> PROPÓSITO <b>✳</b> CONFIANÇA <b>✳</b></span>").join("")}</div></div>
+    <div class="marquee" role="img" aria-label="${marqueeWords.join(", ")}"><div class="marquee-track" aria-hidden="true">${Array.from({ length: 4 }, () => `<span>${marqueeWords.map((word) => `${escape(word.toUpperCase())} <b>✳</b>`).join(" ")}</span>`).join("")}</div></div>
 
     <section class="identification section light" id="jornada">
       <div class="container">${label("01", "NEM TUDO ESTÁ NOS LIVROS")}
@@ -163,15 +173,15 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
         "",
       )}</div></div><div class="container"><p class="reviews-note">Avaliações reproduzidas a partir dos materiais oficiais fornecidos pelo Preparamente.</p></div></section>
 
-    <section class="how-section section"><div class="container">${label("07", "DO SEU JEITO. NO SEU RITMO.")}<div class="section-heading"><h2>SUA JORNADA COMEÇA<br><em>EM POUCOS PASSOS.</em></h2><p>Sem recomeçar do zero.<br>Um próximo passo na sua preparação.</p></div><ol class="steps"><li><span>01 <i>${arrow}</i></span><h3>Faça sua inscrição.</h3><p>Adquira a ${offer.name} por ${price}, com pagamento pela Hotmart.</p></li><li><span>02 <i>${arrow}</i></span><h3>Receba seu acesso.</h3><p>Após a confirmação do pagamento, siga as orientações da Hotmart para acessar o curso.</p></li><li><span>03 <i>${arrow}</i></span><h3>Assista e pratique.</h3><p>Explore os cinco módulos e os materiais no seu ritmo, dentro do prazo de acesso contratado.</p></li></ol></div></section>
+    <section class="how-section section"><div class="container">${label("07", "DO SEU JEITO. NO SEU RITMO.")}<div class="section-heading"><h2>SUA JORNADA COMEÇA<br><em>EM POUCOS PASSOS.</em></h2><p>Sem recomeçar do zero.<br>Um próximo passo na sua preparação.</p></div><ol class="steps"><li><span>01 <i>${arrow}</i></span><h3>Faça sua inscrição.</h3><p>Adquira a ${offer.name} por ${price} à vista ou ${installmentLabel}, com pagamento pela Hotmart.</p></li><li><span>02 <i>${arrow}</i></span><h3>Receba seu acesso.</h3><p>Após a confirmação do pagamento, siga as orientações da Hotmart para acessar o curso.</p></li><li><span>03 <i>${arrow}</i></span><h3>Assista e pratique.</h3><p>Explore os cinco módulos e os materiais no seu ritmo, dentro do prazo de acesso contratado.</p></li></ol></div></section>
 
-    <section class="offer-section section" id="inscricao"><div class="container offer-grid"><div class="offer-copy">${label("08", "SUA JORNADA COMEÇA AQUI")}<h2>PREPARE A MENTE.<br><em>CONTINUE<br>SUA JORNADA.</em></h2><h3>${offer.name}</h3><ul class="offer-includes">${["Cinco módulos com o psicólogo Mateus Tiujo", "Preparação mental para ENEM e vestibulares", "Exercícios práticos, materiais de apoio e EAFV", "Acesso digital após confirmação do pagamento", "Estudo no seu ritmo, dentro do prazo contratado"].map((t) => `<li>${check}${t}</li>`).join("")}</ul></div><div class="offer-purchase"><div class="offer-mini-poster" aria-hidden="true">${poster}</div><span class="eyebrow">UM PRÓXIMO PASSO NA SUA PREPARAÇÃO</span><p class="offer-price"><span>R$</span> ${offer.price}<span>,00</span></p>${buy("Sim, quero começar minha jornada", "offer")}<p class="purchase-note">Pagamento pela Hotmart · Conteúdo digital</p><p class="offer-conditions">${offer.accessPeriod ? `Acesso: ${escape(offer.accessPeriod)}.` : "Acesso por prazo determinado. Duração em confirmação."} ${offer.guarantee ? escape(offer.guarantee) : "Consulte as condições de garantia antes de pagar."}</p></div></div></section>
+    <section class="offer-section section" id="inscricao"><div class="container offer-grid"><div class="offer-copy">${label("08", "SUA JORNADA COMEÇA AQUI")}${productIdentity("h2", "offer-identity", "offer-product-title")}<p class="offer-slogan">PREPARE A MENTE.<br>CONTINUE SUA JORNADA.</p><ul class="offer-includes">${["Cinco módulos com o psicólogo Mateus Tiujo", "Preparação mental para ENEM e vestibulares", "Exercícios práticos, materiais de apoio e EAFV", "Acesso digital após confirmação do pagamento", "Estudo no seu ritmo, dentro do prazo contratado"].map((t) => `<li>${check}${t}</li>`).join("")}</ul></div><div class="offer-purchase"><div class="offer-mini-poster" aria-hidden="true">${poster}</div><span class="eyebrow">UM PRÓXIMO PASSO NA SUA PREPARAÇÃO</span><p class="offer-installment"><span>${offer.paymentPlan.installments}x de</span> <strong>${installmentPrice}</strong></p><p class="offer-cash">ou <strong>${price}</strong> à vista</p><p class="installment-total">Total parcelado: ${installmentTotal}.</p>${buy("Sim, quero começar minha jornada", "offer")}<p class="purchase-note">Pagamento pela Hotmart · Conteúdo digital</p><p class="offer-conditions">${offer.accessPeriod ? `Acesso: ${escape(offer.accessPeriod)}.` : "Acesso por prazo determinado. Duração em confirmação."} ${offer.guarantee ? escape(offer.guarantee) : "Consulte as condições de garantia antes de pagar."}</p></div></div></section>
 
-    <section class="cinema" aria-labelledby="cinema-title"><img src="${asset("images/student-960.webp")}" width="960" height="1280" loading="lazy" alt="Estudante dedicando um momento de atenção aos estudos, em cena ilustrativa."/><div class="cinema-content container"><span class="eyebrow">PARA O DIA DA PROVA. E PARA O CAMINHO ATÉ LÁ.</span><h2 id="cinema-title">A PROVA É UM DIA.<br>A PREPARAÇÃO<br>É UMA <em>JORNADA.</em></h2><p>Cuide também da mente que acompanha você até lá.</p></div><span class="cinema-caption">IMAGEM ILUSTRATIVA</span></section>
+    <section class="cinema journey-cinema" aria-labelledby="cinema-title"><div class="journey-scene" aria-hidden="true"><div class="journey-grid"></div><svg class="journey-path" viewBox="0 0 800 600" fill="none"><path d="M55 560h180c90 0 75-140 175-140h65c115 0 55-185 170-185h90" stroke="#e7e5da" stroke-opacity=".12" stroke-width="64"/><path d="M55 560h180c90 0 75-140 175-140h65c115 0 55-185 170-185h90" stroke="#02aa91" stroke-width="3"/><path d="m706 209 29 26-29 26" stroke="#fbaf40" stroke-width="3"/><circle cx="235" cy="560" r="10" fill="#191f47" stroke="#e7e5da" stroke-width="2"/><circle cx="445" cy="420" r="10" fill="#191f47" stroke="#fbaf40" stroke-width="2"/><circle cx="645" cy="235" r="10" fill="#02aa91"/><circle cx="645" cy="235" r="34" stroke="#02aa91" stroke-opacity=".3"/><path d="M580 90h30m-15-15v30M720 460h22m-11-11v22" stroke="#e7e5da" stroke-opacity=".3" stroke-width="2"/></svg><span class="journey-scene-word">Jornada</span><span class="journey-scene-step">UM PASSO DE CADA VEZ.</span></div><div class="cinema-content container"><span class="eyebrow">PARA O DIA DA PROVA. E PARA O CAMINHO ATÉ LÁ.</span><h2 id="cinema-title">A PROVA É UM DIA.<br>A PREPARAÇÃO<br>É UMA <em>JORNADA.</em></h2><p>Cuide também da mente que acompanha você até lá.</p></div></section>
 
     <section class="faq-section section light" id="duvidas"><div class="container faq-grid"><div>${label("09", "CLAREZA PARA O PRÓXIMO PASSO")}<h2>AINDA TEM<br><span class="muted">DÚVIDAS?</span></h2><p>Uma decisão consciente<br>começa com informação.</p><span class="faq-symbol" aria-hidden="true">${arrow}</span></div><div class="faq-list">${faq.map(([q, a]) => `<details class="faq-item"><summary>${q}<span class="expand-icon" aria-hidden="true"></span></summary><div><p>${escape(a)}</p></div></details>`).join("")}</div></div></section>
 
-    <section class="final-section section"><div class="container"><span class="eyebrow"><span class="status-dot"></span> O SEU PRÓXIMO PASSO</span><h2>A RETA FINAL<br>COMEÇA <em>NA MENTE.</em></h2><p>Você já percorreu um longo caminho de estudos.<br>Continue sua preparação com a ${offer.name}.</p><div class="final-purchase"><strong>${price}</strong>${buy("Quero dar esse próximo passo", "final")}</div><span class="final-signature">JORNADA MENTE DE APROVADO <span>—</span> POR PREPARAMENTE</span></div></section>
+    <section class="final-section section"><div class="container"><span class="eyebrow"><span class="status-dot"></span> O SEU PRÓXIMO PASSO</span><h2>A RETA FINAL<br>COMEÇA <em>NA MENTE.</em></h2><p>Você já percorreu um longo caminho de estudos.<br>Continue sua preparação com a ${offer.name}.</p><div class="final-purchase"><strong>${price}<small>à vista</small></strong>${buy("Quero dar esse próximo passo", "final")}</div><span class="final-signature">JORNADA MENTE DE APROVADO <span>—</span> POR PREPARAMENTE</span></div></section>
   </main>
   <footer class="site-footer"><div class="container"><div class="footer-top"><a class="brand" href="#inicio">${brandLogo()}</a><p>Conteúdo preparado.<br><span>Mente em preparação.</span></p><a class="back-top" href="#inicio" aria-label="Voltar ao início">${arrow}</a></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} Preparamente.<br>Jornada Mente de Aprovado.</span><nav aria-label="Informações legais">${[
     ["privacy", "Política de Privacidade"],
@@ -186,7 +196,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     .join(
       "",
     )}<button type="button" data-consent-open>Preferências de privacidade</button></nav><p>Produto educacional independente, sem vínculo oficial com os órgãos responsáveis pelo ENEM ou instituições de ensino. Não substitui acompanhamento psicológico.</p></div></div></footer>
-  <aside class="mobile-buy" aria-label="Inscrição na Jornada"><div><span>JORNADA MENTE DE APROVADO</span><strong>${price.replace(",00", "")}</strong></div>${buy("Começar", "mobile", "button-small")}</aside>
+  <aside class="mobile-buy" aria-label="Inscrição na Jornada"><div><span>JORNADA MENTE DE APROVADO</span><strong>${price.replace(",00", "")}<small>à vista</small></strong></div>${buy("Começar", "mobile", "button-small")}</aside>
   <dialog id="info-dialog" class="info-dialog" aria-labelledby="dialog-title"><button type="button" class="dialog-close" aria-label="Fechar" data-dialog-close>×</button><span class="eyebrow">PREPARAMENTE / INFORMAÇÕES</span><h2 id="dialog-title"></h2><div id="dialog-content"></div><button type="button" class="button button-dark" data-dialog-close>Entendi ${arrow}</button></dialog>
   <dialog id="consent-dialog" class="info-dialog" aria-labelledby="consent-title"><button type="button" class="dialog-close" aria-label="Fechar preferências" data-consent-close>×</button><span class="eyebrow">SUA PRIVACIDADE IMPORTA</span><h2 id="consent-title">Você escolhe.</h2><p>O armazenamento essencial guarda sua preferência. Com sua permissão, ferramentas de análise e publicidade podem medir visitas e interações. A compra acontece na Hotmart, que tem suas próprias políticas. Você pode mudar sua escolha no rodapé.</p><div class="consent-actions"><button type="button" class="button button-dark" data-consent="essential">Somente essenciais</button><button type="button" class="button" data-consent="accepted">Permitir análise e publicidade</button></div></dialog>
   <div class="toast" role="status" aria-live="polite"></div>

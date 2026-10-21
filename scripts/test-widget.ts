@@ -65,7 +65,12 @@ try {
     );
     const frame = page.frameLocator("iframe");
     await expect(page.locator("iframe")).toHaveAttribute("allow", /fullscreen/);
-    await expect(frame.locator("h1")).toContainText("SUA MENTE?");
+    await expect(frame.locator("h1")).toHaveAccessibleName(
+      "Jornada Mente de Aprovado",
+    );
+    await expect(frame.locator(".offer-installment")).toHaveText(
+      /12x de R\$\s6,93/,
+    );
     assert(
       await frame
         .locator(".hero-photo")

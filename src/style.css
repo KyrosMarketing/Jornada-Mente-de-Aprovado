@@ -3601,3 +3601,397 @@
     }
   }
 }
+
+/* Assinatura do produto: gesto humano, nome forte e faixa de reconhecimento. */
+@layer base {
+  @font-face {
+    font-family: "Caveat Variable";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("@fontsource-variable/caveat/files/caveat-latin-wght-normal.woff2")
+      format("woff2");
+  }
+}
+@layer layout {
+  .header-journey {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .header-journey > span {
+    font:
+      600 27px/0.85 "Caveat Variable",
+      cursive;
+    color: var(--accent);
+  }
+  .header-journey > strong {
+    font: 700 13px/1.4 var(--display);
+    letter-spacing: -0.025em;
+  }
+  .header-journey > small {
+    display: none;
+  }
+  .brand-endorsement {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-endorsement > span {
+    font: 500 7px var(--body);
+    letter-spacing: 0.1em;
+    color: var(--sage);
+  }
+  .brand-endorsement .official-logo {
+    width: 110px;
+    height: 34px;
+  }
+  .journey-wordmark {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    font-weight: 700;
+  }
+  .journey-script {
+    font:
+      600 57px/0.88 "Caveat Variable",
+      cursive;
+    letter-spacing: -0.025em;
+    color: var(--paper);
+    margin-left: 2px;
+  }
+  .journey-name {
+    font: 700 clamp(48px, 4.3vw, 66px) / 1 var(--display);
+    letter-spacing: -0.055em;
+    margin-top: 7px;
+  }
+  .journey-stamp {
+    font: 700 clamp(51px, 4.5vw, 70px) / 1 var(--display);
+    letter-spacing: -0.05em;
+    background: var(--brand-navy);
+    border: 1px solid #6973b0;
+    padding: 5px 13px 9px;
+    transform: rotate(-2deg);
+    margin-top: 6px;
+    color: #fff;
+  }
+  .hero .hero-identity {
+    margin: 28px 0 0;
+  }
+  .hero-promise {
+    font: 600 clamp(22px, 1.9vw, 29px) / 1.2 var(--display);
+    letter-spacing: -0.04em;
+    margin-top: 27px;
+  }
+  .hero-promise em {
+    color: var(--accent);
+    font-style: normal;
+  }
+  .hero-description {
+    margin-top: 18px;
+  }
+  .hero-price > small {
+    display: block;
+    font-size: 9px;
+    color: var(--sage);
+  }
+  .hero-photo {
+    object-position: center 36%;
+    filter: saturate(0.92);
+  }
+  .offer-identity {
+    margin-top: 27px;
+  }
+  .offer-identity .journey-script {
+    font-size: 52px;
+  }
+  .offer-identity .journey-name {
+    font-size: 58px;
+  }
+  .offer-identity .journey-stamp {
+    font-size: 62px;
+  }
+  .offer-slogan {
+    font: 500 15px/1.45 var(--display);
+    letter-spacing: 0.02em;
+    color: var(--sage);
+    margin-top: 31px;
+  }
+  .offer-installment {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 13px;
+    font-family: var(--display);
+  }
+  .offer-installment > span {
+    font-size: 24px;
+    white-space: nowrap;
+  }
+  .offer-installment > strong {
+    font-size: clamp(62px, 6vw, 86px);
+    line-height: 1.1;
+    letter-spacing: -0.065em;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .offer-cash {
+    font-size: 17px;
+    margin-top: 11px;
+  }
+  .offer-cash strong {
+    font-weight: 600;
+  }
+  .installment-total {
+    font-size: 10px;
+    color: var(--sage);
+    margin: 9px 0 25px;
+  }
+  .cover-journey {
+    font:
+      600 29px/0.9 "Caveat Variable",
+      cursive;
+    margin-top: 18px;
+  }
+  .course-cover > strong {
+    font-size: clamp(25px, 2.9vw, 43px);
+    margin-top: 5px;
+    line-height: 1.1;
+  }
+  .course-cover > strong i {
+    display: inline-block;
+    background: var(--brand-navy);
+    color: #fff;
+    padding: 2px 5px 5px;
+    transform: rotate(-2deg);
+    margin-top: 3px;
+  }
+  .product-art > .concept-note {
+    background: var(--forest);
+    padding: 4px 8px;
+    z-index: 2;
+  }
+  .offer-mini-poster .cover-caption {
+    display: none;
+  }
+  .offer-mini-poster .cover-foot {
+    margin-top: auto;
+  }
+  .offer-mini-poster .cover-journey {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .offer-mini-poster .course-cover > strong {
+    font-size: 16px;
+    margin-top: 3px;
+  }
+  .offer-mini-poster .cover-orbit {
+    margin-top: 12px;
+  }
+  .final-purchase > strong > small {
+    display: block;
+    font: 400 10px/1.5 var(--body);
+    letter-spacing: 0;
+  }
+  .mobile-buy strong > small {
+    font: 400 9px var(--body);
+    letter-spacing: 0;
+    margin-left: 5px;
+  }
+  .journey-scene,
+  .journey-grid {
+    position: absolute;
+    inset: 0;
+  }
+  .journey-scene {
+    background:
+      radial-gradient(ellipse at 85% 30%, #2b347c80, transparent 65%), #141a3d;
+  }
+  .journey-grid {
+    background-image:
+      linear-gradient(#e7e5da08 1px, transparent 1px),
+      linear-gradient(90deg, #e7e5da08 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .journey-path {
+    position: absolute;
+    right: -3%;
+    top: 0;
+    width: 70%;
+    height: 100%;
+  }
+  .journey-scene-word {
+    position: absolute;
+    right: 11%;
+    top: 13%;
+    font:
+      600 150px "Caveat Variable",
+      cursive;
+    color: #e7e5da1f;
+    transform: rotate(-9deg);
+  }
+  .journey-scene-step {
+    position: absolute;
+    right: 6%;
+    bottom: 40px;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    color: var(--sage);
+  }
+  .journey-cinema::after {
+    background: linear-gradient(90deg, #10142df5, #10142d85 52%, #10142d00 85%);
+  }
+}
+@layer responsive {
+  @media (max-width: 1100px) {
+    .brand-endorsement {
+      display: none;
+    }
+    .header-journey > small {
+      display: block;
+      color: var(--sage);
+      font: 400 6px/1.6 var(--body);
+      letter-spacing: 0.12em;
+    }
+    .hero-promise {
+      font-size: 22px;
+    }
+    .journey-script {
+      font-size: 48px;
+    }
+    .journey-name {
+      font-size: 47px;
+    }
+    .journey-stamp {
+      font-size: 50px;
+    }
+    .offer-identity .journey-name {
+      font-size: 48px;
+    }
+    .offer-identity .journey-stamp {
+      font-size: 51px;
+    }
+    .offer-installment {
+      gap: 9px;
+    }
+    .offer-installment > span {
+      font-size: 19px;
+    }
+    .offer-installment > strong {
+      font-size: 63px;
+    }
+  }
+  @media (max-width: 700px) {
+    .header-journey > span {
+      font-size: 23px;
+    }
+    .header-journey > strong {
+      font-size: 11px;
+    }
+    .hero .hero-identity {
+      margin-top: 24px;
+    }
+    .journey-script {
+      font-size: 43px;
+    }
+    .journey-name {
+      font-size: clamp(42px, 10vw, 57px);
+    }
+    .journey-stamp {
+      font-size: clamp(46px, 10.8vw, 61px);
+      padding: 5px 10px 7px;
+    }
+    .hero-promise {
+      font-size: clamp(19px, 4.65vw, 24px);
+      margin-top: 24px;
+    }
+    .hero-description {
+      margin-top: 18px;
+    }
+    .hero-price > small {
+      font-size: 8px;
+    }
+    .hero-photo {
+      object-position: center 29%;
+    }
+    .offer-identity .journey-script {
+      font-size: 43px;
+    }
+    .offer-identity .journey-name {
+      font-size: 46px;
+    }
+    .offer-identity .journey-stamp {
+      font-size: 50px;
+    }
+    .offer-slogan {
+      margin-top: 27px;
+      font-size: 13px;
+    }
+    .offer-installment {
+      margin-top: 12px;
+      gap: 7px;
+    }
+    .offer-installment > span {
+      font-size: 16px;
+    }
+    .offer-installment > strong {
+      font-size: 55px;
+    }
+    .offer-cash {
+      font-size: 14px;
+      margin-top: 9px;
+    }
+    .installment-total {
+      font-size: 9px;
+      margin-bottom: 25px;
+    }
+    .offer-mini-poster {
+      width: 72px;
+      right: 3px;
+      top: 36px;
+    }
+    .offer-mini-poster .course-cover {
+      padding: 7px;
+    }
+    .offer-mini-poster .cover-brand .official-logo {
+      width: 48px;
+    }
+    .offer-mini-poster .cover-journey {
+      font-size: 9px;
+      margin-top: 7px;
+    }
+    .offer-mini-poster .course-cover > strong {
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    .offer-mini-poster .cover-orbit {
+      display: none;
+    }
+    .offer-mini-poster .cover-foot {
+      display: none;
+    }
+    .journey-path {
+      width: 580px;
+      right: -210px;
+      opacity: 0.65;
+    }
+    .journey-scene-word {
+      top: 8%;
+      right: 8%;
+      font-size: 90px;
+    }
+    .journey-grid {
+      background-size: 44px 44px;
+    }
+    .journey-scene-step {
+      font-size: 6px;
+      bottom: 24px;
+    }
+    .journey-cinema::after {
+      background: linear-gradient(90deg, #10142df0, #10142d50);
+    }
+  }
+}

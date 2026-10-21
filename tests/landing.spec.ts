@@ -27,7 +27,9 @@ test("todos os CTAs usam o checkout oficial e a atribuição da visita", async (
   await page.goto(
     "/?utm_source=instagram&utm_medium=social&utm_campaign=teste",
   );
-  await expect(page.locator("h1")).toContainText("SUA MENTE?");
+  await expect(page.locator("h1")).toHaveAccessibleName(
+    "Jornada Mente de Aprovado",
+  );
   const ctas = page.locator("[data-buy]");
   expect(await ctas.count()).toBe(6);
   for (const link of await ctas.all()) {
@@ -359,5 +361,37 @@ test("cinco relatos autênticos, loop sem salto, pausa e modo de movimento reduz
   await expect(page.locator(".reviews-viewport")).toHaveCSS(
     "overflow-x",
     "auto",
+  );
+});
+
+test("identidade da Jornada, copy preservada e parcelamento claro", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator(".hero-promise")).toHaveText(
+    "VOCÊ ESTUDOU PARA A PROVA.MAS PREPAROU SUA MENTE?",
+  );
+  await expect(page.locator(".image-caption")).toContainText("O próximo passo");
+  await expect(page.locator(".image-caption")).toContainText("começa em você.");
+  await expect(page.locator(".hero-photo")).toHaveAttribute(
+    "src",
+    /jornada-campus-960/,
+  );
+  await expect(page.locator(".marquee")).toHaveAccessibleName(
+    /Alta performance, Organização/,
+  );
+  await expect(page.locator(".offer-identity")).toHaveAccessibleName(
+    "Jornada Mente de Aprovado",
+  );
+  await expect(page.locator(".offer-installment")).toHaveText(
+    /12x de R\$\s6,93/,
+  );
+  await expect(page.locator(".offer-cash")).toHaveText(/ou R\$\s67,00 à vista/);
+  await expect(page.locator(".installment-total")).toHaveText(
+    /Total parcelado: R\$\s83,16/,
+  );
+  await expect(page.locator(".journey-path")).toHaveCount(1);
+  await expect(page.locator("#cinema-title")).toHaveText(
+    "A PROVA É UM DIA.A PREPARAÇÃOÉ UMA JORNADA.",
   );
 });
