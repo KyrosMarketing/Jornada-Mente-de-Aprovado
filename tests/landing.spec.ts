@@ -393,7 +393,7 @@ test("identidade da Jornada, copy preservada e parcelamento claro", async ({
   await expect(page.locator(".image-caption")).toContainText("começa em você.");
   await expect(page.locator(".hero-photo")).toHaveAttribute(
     "src",
-    /jornada-campus-960/,
+    /jornada-produto-960/,
   );
   await expect(page.locator(".marquee")).toHaveAccessibleName(
     /Alta performance, Organização/,
@@ -470,7 +470,7 @@ test("hero reserva espaço para a foto e a esteira durante carregamento lento", 
     releaseImage = resolve;
   });
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.route("**/images/jornada-campus-*.webp", async (route) => {
+  await page.route("**/images/jornada-produto-*.webp", async (route) => {
     await gate;
     await route.continue();
   });
@@ -505,4 +505,57 @@ test("hero reserva espaço para a foto e a esteira durante carregamento lento", 
   } finally {
     releaseImage();
   }
+});
+
+test("refinamento comercial mantém relato integral, adequação ao curso e condições coerentes", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator(".hero-photo")).toHaveAttribute(
+    "alt",
+    /Mockup digital da Jornada/,
+  );
+  await expect(page.locator(".hero-exams")).toHaveText(
+    "Para ENEM, Fuvest, Unicamp, UFPR e outros vestibulares.",
+  );
+  await expect(
+    page.locator(".audience-card").first().locator("li"),
+  ).toHaveCount(4);
+  await expect(page.locator(".audience-card").last().locator("li")).toHaveCount(
+    3,
+  );
+  await expect(page.locator(".audience-limits")).toContainText(
+    "acompanhamento psicológico adequado",
+  );
+  await expect(page.locator(".featured-review blockquote")).toHaveText(
+    "Quando conheci o trabalho da equipe pelo Instagram,confesso que bateu aquela dúvida natural por serem de outro estado. Mas fiz minha pesquisa, conversei com o time e decidi confiar. Hoje, após 4 semanas de acompanhamento com a minha filha, só tenho a agradecer! Que entrega incrível! A atenção, a organização e o profissionalismo de vocês têm sido fundamentais para ela construir uma rotina de estudos de verdade e se sentir incentivada todos os dias. Ter a certeza de que ela está em boas mãos, mesmo à distância, traz uma paz enorme. Parabéns pelo trabalho impecável! Obrigada! 🙏 ❤️",
+  );
+  await expect(page.locator(".featured-review")).toContainText("@rosana_srs");
+  await expect(page.locator(".featured-review .review-stars")).toHaveCount(0);
+  await expect(page.locator(".product-art > .concept-note")).toHaveCount(0);
+  await expect(page.locator(".instructor-name")).toContainText(
+    "Especialista em Neuropsicologia",
+  );
+  await expect(page.locator(".offer-reassurance")).toContainText(
+    "7 dias de garantia",
+  );
+  await expect(page.locator(".offer-reassurance")).toContainText(
+    "Acesso imediato pela Hotmart",
+  );
+  await expect(page.locator(".offer-reassurance")).toContainText(
+    "Após a confirmação do pagamento.",
+  );
+  await expect(page.locator(".faq-item")).toHaveCount(7);
+  const minor = page
+    .locator(".faq-item")
+    .filter({ hasText: "Meu filho tem 16 anos. Ele pode fazer?" });
+  await minor.locator("summary").click();
+  await expect(minor.locator("p")).toContainText("estudantes de 16 a 26 anos");
+  const access = page
+    .locator(".faq-item")
+    .filter({ hasText: "Quando recebo o acesso e por quanto tempo?" });
+  await access.locator("summary").click();
+  await expect(access.locator("p")).toContainText(
+    "Consulte a duração do acesso",
+  );
 });

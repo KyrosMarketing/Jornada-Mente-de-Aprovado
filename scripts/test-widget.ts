@@ -120,6 +120,16 @@ try {
         "A esteira deve permanecer abaixo da foto, com respiro.",
       );
     }
+    await expect(frame.locator(".featured-review")).toContainText(
+      "@rosana_srs",
+    );
+    await expect(frame.locator(".featured-review blockquote")).toContainText(
+      "Parabéns pelo trabalho impecável! Obrigada! 🙏 ❤️",
+    );
+    await expect(frame.locator(".offer-reassurance")).toContainText(
+      "7 dias de garantia",
+    );
+    await expect(frame.locator(".audience-card li")).toHaveCount(7);
     await frame.locator('[data-module="2"] summary').click();
     await expect(frame.locator("#visual-word")).toHaveText("RESPIRE.");
     await frame

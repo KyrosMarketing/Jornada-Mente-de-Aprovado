@@ -4,7 +4,7 @@ Landing page da Preparamente, em português, com Vite, TypeScript e CSS. Sem fra
 
 ## Usar no widget HTML do WordPress / Elementor
 
-Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 759 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
+Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 651 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
 
 1. Crie uma página em rascunho no WordPress e abra no Elementor.
 2. Selecione o layout **Elementor Canvas**, use uma seção com largura total e padding/margens zero.
@@ -56,7 +56,7 @@ As informações pendentes aparecem de forma transparente na revisão. Política
 
 ## Antes de publicar
 
-1. Confirme prazo de acesso, garantia e formas de pagamento desta oferta.
+1. Confirme prazo de acesso e demais condições contratuais desta oferta. A garantia de 7 dias foi informada pelo usuário e confirmada na página pública do produto na Hotmart.
 2. Confirme empresa e CNPJ responsáveis pela Jornada. A empresa citada na referência antiga **não** foi automaticamente atribuída à nova oferta.
 3. Informe URLs oficiais de Privacidade, Termos e Suporte, e `siteUrl` com domínio HTTPS definitivo.
 4. Revise módulos, EAFV, materiais e apresentação profissional de Mateus. O workbook, ebooks e diário estão desativados até confirmação. Os cinco depoimentos fornecidos pelo Preparamente estão identificados pela origem informada e se referem à mentoria ou ao trabalho profissional, sem atribuir experiências a compradores da Jornada. Não foram inventados links de avaliações.
@@ -92,11 +92,11 @@ O vídeo `sIXC3d7DKdg` aparece junto à apresentação do especialista, rotulado
 
 O carrossel duplica visualmente o mesmo grupo de cinco relatos para permitir loop contínuo; a cópia é `aria-hidden` e `inert`, sem sugerir avaliações adicionais. Há pausa por hover, foco e botão; com movimento reduzido, a lista original fica estática e pode ser rolada horizontalmente.
 
-Fotografia da hero com dois jovens: composição ilustrativa gerada a partir da fotografia de referência enviada pelo PreparaMente, mantendo a referência visual das pessoas. Não é um depoimento ou resultado de alunos. Mockups são conceitos visuais, identificados como tal. Nenhum depoimento, registro profissional, prazo comercial ou resultado foi inventado.
+A hero usa um mockup digital gerado a partir das duas capas azul e creme fornecidas pelo usuário. A composição representa um curso digital; não inclui entrega física. A fotografia anterior dos jovens foi removida. Mockups são conceitos visuais, identificados como tal. Nenhum depoimento, registro profissional, prazo comercial ou resultado foi inventado.
 
 Space Grotesk Variable, Inter Variable e Caveat Variable: pacotes Fontsource, licença OFL, incluída nas dependências. A página usa apenas os arquivos latinos WOFF2. Fotos WebP de 640 e 960px, lazy loading abaixo da dobra, hero priorizada. A seção sobre a preparação usa um caminho vetorial e grade discreta nas cores da marca, sem download de imagem adicional. A assinatura tipográfica da Jornada, inspirada na referência Hotmart enviada, aparece na hero, na oferta e nos mockups.
 
-O site de referência e a Hotmart retornaram bloqueio do proxy do ambiente na consulta de rede. O conteúdo editorial foi implementado a partir do briefing fornecido. Não foi feita validação independente de credenciais ou extração de imagens/depoimentos do site original.
+A garantia de 7 dias foi conferida na [ficha pública do produto G108112534E na Hotmart](https://hotmart.com/pt-br/marketplace/produtos/jornada-mente-de-aprovado/G108112534E). A duração do acesso não estava definida ali; a LP orienta consultar a oferta/checkout. As capas e os depoimentos foram fornecidos pelo usuário; a cópia pública da imagem na Hotmart não pôde ser baixada. Não houve validação independente de credenciais.
 
 ## Estrutura
 
@@ -113,6 +113,8 @@ public/images/      Imagens locais e Open Graph
 
 A condição solicitada é **12x de R$ 6,93**, total parcelado de **R$ 83,16**, com **R$ 67,00 à vista**. A oferta e o FAQ distinguem os dois valores, sem alegar parcelamento sem juros. Os dados ficam centralizados em `src/offer.ts`.
 
-Na hero mobile, a foto ocupa a largura disponível com altura automática e proporção original 3:4, inclusive ao redimensionar a janela. No desktop, o enquadramento continua usando `object-fit: cover`.
+Na hero mobile, o mockup ocupa a largura disponível com altura automática e proporção 3:4, inclusive ao redimensionar a janela. No desktop, o enquadramento continua usando `object-fit: cover`.
 
-A hero usa fluxo de blocos no mobile: foto, rodapé da hero e esteira ocupam espaços consecutivos. Os testes conferem a separação durante carregamento lento e após redimensionamento. A execução direta do WebKit ficou indisponível neste ambiente por bloqueio do download do navegador.
+A hero usa fluxo de blocos no mobile: imagem, rodapé da hero e esteira ocupam espaços consecutivos. Os testes conferem a separação durante carregamento lento e após redimensionamento. A execução direta do WebKit ficou indisponível neste ambiente por bloqueio do download do navegador.
+
+Refinamento da reta final: copy voltada à execução sob pressão; exames ENEM, Fuvest, Unicamp e UFPR; biografia resumida conforme texto de Mateus; seção de adequação ao curso; relato integral de Rosana (@rosana_srs) em destaque, sem nota de estrelas inventada; sete perguntas frequentes, incluindo compra por responsável. O vídeo, os módulos e o fluxo de checkout foram preservados.

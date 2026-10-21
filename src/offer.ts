@@ -25,7 +25,9 @@ export const offer = {
   },
   HOTMART_CHECKOUT_URL: "https://pay.hotmart.com/G108112534E",
   accessPeriod: null as string | null,
-  guarantee: null as string | null,
+  guarantee: "7 dias de garantia, conforme as condições da Hotmart." as
+    | string
+    | null,
   paymentMethods: null as string | null,
   // The supplied reference mentions this company; ownership of the new offer is not confirmed.
   merchant: {
@@ -42,11 +44,11 @@ export const offer = {
   publication: { contentApproved: false, instructorProfileApproved: false },
   instructor: {
     name: "Mateus Tiujo",
-    title: "Psicólogo · Criador do Preparamente",
+    title: "Psicólogo · Especialista em Neuropsicologia",
     portrait: "images/mateus-retrato.webp" as string | null,
-    bio: "Mateus Tiujo é o psicólogo por trás do Preparamente. Seu trabalho conecta conhecimentos da Psicologia às dificuldades vividas por estudantes durante a preparação para vestibulares, com atenção à ansiedade, constância, organização e aspectos emocionais da aprendizagem.",
+    bio: "Mateus Tiujo é psicólogo, especialista em Neuropsicologia e fundador do Preparamente. Estuda os fatores psicológicos e cognitivos ligados à alta performance acadêmica e esportiva.",
     background:
-      "Ao lado de Kaori, também psicóloga, fundou o Preparamente a partir da experiência com vestibulandos que precisavam cuidar da rotina e dos aspectos emocionais da preparação.",
+      "Integra Psicologia e Neuropsicologia para compreender como ansiedade, regulação emocional, atenção, motivação e organização influenciam a aprendizagem, a constância e o desempenho sob pressão.",
     areas: [
       "Psicologia Clínica",
       "Terapia Cognitivo-Comportamental",
@@ -87,6 +89,13 @@ export const offer = {
       confirmed: false,
     },
   ],
+  featuredTestimonial: {
+    quote:
+      "Quando conheci o trabalho da equipe pelo Instagram,confesso que bateu aquela dúvida natural por serem de outro estado. Mas fiz minha pesquisa, conversei com o time e decidi confiar. Hoje, após 4 semanas de acompanhamento com a minha filha, só tenho a agradecer! Que entrega incrível! A atenção, a organização e o profissionalismo de vocês têm sido fundamentais para ela construir uma rotina de estudos de verdade e se sentir incentivada todos os dias. Ter a certeza de que ela está em boas mãos, mesmo à distância, traz uma paz enorme. Parabéns pelo trabalho impecável! Obrigada! 🙏 ❤️",
+    attribution: "Rosana",
+    handle: "@rosana_srs",
+    context: "Mãe de aluna acompanhada pelo Preparamente",
+  },
   // Transcribed from the official reference supplied by the user. No source links were supplied.
   testimonials: [
     {
