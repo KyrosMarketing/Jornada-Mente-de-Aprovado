@@ -689,3 +689,25 @@ test("vídeo futuro carrega sob demanda, respeita pausa e movimento reduzido e m
     "Prévia indisponível no momento.",
   );
 });
+
+test("degradê acompanha os limites reais do mockup também no desktop", async ({
+  page,
+}) => {
+  for (const width of [768, 1440, 2048]) {
+    await page.setViewportSize({ width, height: 1050 });
+    await page.goto("/");
+    const geometry = await page
+      .locator(".hero-photo")
+      .evaluate(async (img: HTMLImageElement) => {
+        await img.decode();
+        const box = img.getBoundingClientRect();
+        return {
+          displayed: box.width / box.height,
+          original: img.naturalWidth / img.naturalHeight,
+        };
+      });
+    expect(Math.abs(geometry.displayed - geometry.original)).toBeLessThan(
+      0.002,
+    );
+  }
+});
