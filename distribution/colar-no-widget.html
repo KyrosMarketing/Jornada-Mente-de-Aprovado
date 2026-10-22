@@ -5,9 +5,9 @@
 (async function () {
   const area = document.getElementById('jornada-preview');
   try {
-    const resposta = await fetch('https://raw.githubusercontent.com/KyrosMarketing/Jornada-Mente-de-Aprovado/205bb85c25e544bddab8970b15becd65601eddac/distribution/jornada-widget.html', {
+    const resposta = await fetch('https://raw.githubusercontent.com/KyrosMarketing/Jornada-Mente-de-Aprovado/5ba2441a1c677a60feb7379cf13786c134612205/distribution/jornada-widget.html', {
       credentials: 'omit',
-      integrity: 'sha384-ACkQaS3hugHptbutKlc6ATpX1VrDk47tDgVWL23yCAjTCqAhKFHZSKGFX4031ihQ'
+      integrity: 'sha384-9jGNDxgcX9on1n+P/CA/PDTatxDaN0olDxDKznrRUDeQqYl50xeY/MvF/jk849Jo'
     });
     if (!resposta.ok) throw new Error('Falha no carregamento');
     const quadro = document.createElement('iframe');
