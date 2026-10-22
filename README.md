@@ -4,7 +4,7 @@ Landing page da Preparamente, em português, com Vite, TypeScript e CSS. Sem fra
 
 ## Usar no widget HTML do WordPress / Elementor
 
-Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 660 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
+Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 662 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
 
 1. Crie uma página em rascunho no WordPress e abra no Elementor.
 2. Selecione o layout **Elementor Canvas**, use uma seção com largura total e padding/margens zero.

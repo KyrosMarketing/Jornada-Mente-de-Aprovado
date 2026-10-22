@@ -4611,3 +4611,155 @@
     }
   }
 }
+
+/* Limpeza solicitada e reforço dos botões de inscrição. */
+@layer layout {
+  .product-hero .hero-photo {
+    mask-image:
+      linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent),
+      linear-gradient(
+        180deg,
+        transparent,
+        #000 8%,
+        #000 76%,
+        #000e6 84%,
+        #0006b 94%,
+        transparent
+      );
+  }
+  .product-hero::after {
+    background: linear-gradient(
+      180deg,
+      #10142d14,
+      transparent 42%,
+      #10142d0a 68%,
+      #10142d66 87%,
+      var(--ink) 100%
+    );
+  }
+  .product-hero .image-caption {
+    justify-content: flex-end;
+    bottom: 30px;
+  }
+  .button[data-buy] {
+    background: linear-gradient(135deg, #ffc266, var(--accent) 55%, #f7a62f);
+    color: var(--ink);
+    border: 1px solid #b67820;
+    border-radius: 6px;
+    min-height: 58px;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 16px 22px;
+    gap: 14px;
+    box-shadow:
+      0 7px 22px #fbaf4024,
+      inset 0 1px 0 #ffffff66;
+    transition:
+      background 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
+  }
+  .button[data-buy] svg {
+    width: 26px;
+    height: 26px;
+    padding: 5px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: #10142d0a;
+  }
+  .button[data-buy]:hover {
+    background: #ffc76f;
+    transform: translateY(-2px);
+    box-shadow:
+      0 11px 28px #fbaf403d,
+      inset 0 1px 0 #ffffff80;
+  }
+  .button[data-buy]:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 12px #fbaf4033;
+  }
+  .button[data-buy]:focus-visible {
+    outline: 3px solid var(--paper);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 5px var(--ink);
+  }
+  .light .button[data-buy]:focus-visible {
+    outline-color: var(--brand-navy);
+    box-shadow: none;
+  }
+  .header-inner > .button[data-buy] {
+    min-height: 46px;
+    font-size: 11px;
+    padding: 11px 15px;
+    gap: 12px;
+  }
+  .header-inner > .button[data-buy] svg {
+    width: 23px;
+    height: 23px;
+    padding: 4px;
+  }
+  .hero-purchase > .button[data-buy] {
+    font-size: 12px;
+    padding-inline: 17px;
+  }
+}
+@layer responsive {
+  @media (max-width: 700px) {
+    .button[data-buy] svg {
+      width: 26px;
+      height: 26px;
+      padding: 5px;
+    }
+    .button[data-buy] {
+      min-height: 56px;
+      font-size: 12px;
+      padding: 15px 17px;
+    }
+    .header-inner > .button[data-buy] {
+      min-height: 44px;
+      font-size: 10px;
+      padding: 10px 12px;
+      gap: 9px;
+    }
+    .header-inner > .button[data-buy] svg {
+      width: 21px;
+      height: 21px;
+      padding: 3px;
+    }
+    .hero-purchase > .button[data-buy] {
+      font-size: 11px;
+      padding-inline: 12px;
+      gap: 10px;
+    }
+    .mobile-buy > .button[data-buy] {
+      background: var(--ink);
+      color: var(--paper);
+      min-height: 46px;
+      padding: 11px 14px;
+      border-color: var(--ink);
+      box-shadow: 0 4px 12px #10142d26;
+    }
+    .mobile-buy > .button[data-buy] svg {
+      background: #e7e5da0d;
+    }
+    .mobile-buy > .button[data-buy]:hover {
+      background: var(--brand-navy);
+    }
+  }
+  @media (max-width: 370px) {
+    .header-inner > .button[data-buy] {
+      font-size: 9px;
+      padding-inline: 10px;
+      gap: 8px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .button[data-buy] {
+      transition: none;
+    }
+    .button[data-buy]:hover,
+    .button[data-buy]:active {
+      transform: none;
+    }
+  }
+}

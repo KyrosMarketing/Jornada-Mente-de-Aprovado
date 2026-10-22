@@ -390,8 +390,11 @@ test("identidade da Jornada, copy preservada e parcelamento claro", async ({
   await expect(page.locator(".hero-promise")).toHaveText(
     "VOCÊ ESTUDOU PARA A PROVA. MAS PREPAROU SUA MENTE?",
   );
-  await expect(page.locator(".image-caption")).toContainText("O próximo passo");
-  await expect(page.locator(".image-caption")).toContainText("começa em você.");
+  await expect(page.locator(".image-caption p")).toHaveCount(0);
+  await expect(page.locator(".image-caption a")).toHaveAttribute(
+    "href",
+    "#jornada",
+  );
   await expect(page.locator(".hero-photo")).toHaveAttribute(
     "src",
     /jornada-produto-960/,
