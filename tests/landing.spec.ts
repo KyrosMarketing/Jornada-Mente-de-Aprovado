@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { readFileSync } from "node:fs";
 import { buildCheckoutUrl } from "../src/checkout";
 
 test("encaminha atribuição sem perder parâmetros comerciais nem aceitar destinos falsos", () => {
@@ -28,7 +29,7 @@ test("todos os CTAs usam o checkout oficial e a atribuição da visita", async (
     "/?utm_source=instagram&utm_medium=social&utm_campaign=teste",
   );
   await expect(page.locator("h1")).toHaveAccessibleName(
-    "Jornada Mente de Aprovado",
+    "Você estudou para a prova. Mas preparou sua mente?",
   );
   const ctas = page.locator("[data-buy]");
   expect(await ctas.count()).toBe(6);
@@ -387,7 +388,7 @@ test("identidade da Jornada, copy preservada e parcelamento claro", async ({
 }) => {
   await page.goto("/");
   await expect(page.locator(".hero-promise")).toHaveText(
-    "VOCÊ ESTUDOU PARA A PROVA.MAS PREPAROU SUA MENTE?",
+    "VOCÊ ESTUDOU PARA A PROVA. MAS PREPAROU SUA MENTE?",
   );
   await expect(page.locator(".image-caption")).toContainText("O próximo passo");
   await expect(page.locator(".image-caption")).toContainText("começa em você.");
@@ -545,7 +546,7 @@ test("refinamento comercial mantém relato integral, adequação ao curso e cond
   await expect(page.locator(".offer-reassurance")).toContainText(
     "Após a confirmação do pagamento.",
   );
-  await expect(page.locator(".faq-item")).toHaveCount(7);
+  await expect(page.locator(".faq-item")).toHaveCount(8);
   const minor = page
     .locator(".faq-item")
     .filter({ hasText: "Meu filho tem 16 anos. Ele pode fazer?" });
@@ -557,5 +558,131 @@ test("refinamento comercial mantém relato integral, adequação ao curso e cond
   await access.locator("summary").click();
   await expect(access.locator("p")).toContainText(
     "Consulte a duração do acesso",
+  );
+});
+
+test("hierarquia da hero, confiança, placeholder e FAQ de garantia", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator("h1")).toHaveAccessibleName(
+    "Você estudou para a prova. Mas preparou sua mente?",
+  );
+  await expect(page.locator(".hero-identity")).toHaveCount(0);
+  await expect(page.locator(".trust-strip li")).toHaveCount(5);
+  await expect(page.locator(".trust-strip")).toContainText(
+    "Acesso liberado após a confirmação do pagamento.",
+  );
+  await expect(page.locator(".preview-stage video")).toHaveCount(0);
+  await expect(page.locator(".preview-fallback")).toContainText(
+    "Vídeo de apresentação em breve.",
+  );
+  await expect(page.locator(".module-number")).toHaveText([
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+  ]);
+  await expect(page.locator(".module summary .expand-icon")).toHaveCount(5);
+  const warranty = page
+    .locator(".faq-item")
+    .filter({ hasText: "Como funciona o acesso e a garantia?" });
+  await warranty.locator("summary").click();
+  await expect(warranty.locator("p")).toContainText("7 dias de garantia");
+  await expect(warranty.locator("p")).toContainText(
+    "após a confirmação do pagamento",
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator("#jornada").scrollIntoViewIfNeeded();
+  await expect(page.locator(".mobile-buy")).toBeVisible();
+  await expect(page.locator(".mobile-buy")).toHaveCSS(
+    "background-color",
+    "rgb(251, 175, 64)",
+  );
+});
+
+test("vídeo futuro carrega sob demanda, respeita pausa e movimento reduzido e mantém fallback", async ({
+  page,
+}) => {
+  let mediaRequests = 0;
+  let failVideo = false;
+  const fixture = readFileSync(
+    new URL("./fixtures/preview-test.mp4", import.meta.url),
+  );
+  await page.route("**/src/offer.ts*", async (route) => {
+    const response = await route.fetch();
+    const body = (await response.text()).replace(
+      /mp4:\s*null/,
+      'mp4: "https://media.example.test/preview.mp4"',
+    );
+    await route.fulfill({ response, body });
+  });
+  await page.route("https://media.example.test/preview.mp4", (route) => {
+    mediaRequests++;
+    return route.fulfill({
+      contentType: "video/mp4",
+      body: failVideo ? Buffer.from("invalid test video") : fixture,
+    });
+  });
+  await page.goto("/");
+  const video = page.locator(".product-preview-video");
+  await expect(video).toHaveCount(1);
+  expect(mediaRequests).toBe(0);
+  await expect(video).toHaveAttribute("preload", "none");
+  await page.locator(".preview-stage").scrollIntoViewIfNeeded();
+  await expect.poll(() => mediaRequests).toBeGreaterThan(0);
+  await expect
+    .poll(() =>
+      video.evaluate((v: HTMLVideoElement) => !v.paused && v.readyState >= 2),
+    )
+    .toBe(true);
+  expect(
+    await video.evaluate(
+      (v: HTMLVideoElement) =>
+        v.muted && v.loop && v.playsInline && !v.controls,
+    ),
+  ).toBe(true);
+  await page
+    .getByRole("button", { name: "Pausar prévia", exact: true })
+    .click();
+  await expect
+    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
+    .toBe(true);
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await page.locator(".preview-stage").scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
+    .toBe(true);
+  await page
+    .getByRole("button", { name: "Reproduzir prévia", exact: true })
+    .click();
+  await expect
+    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
+    .toBe(false);
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await expect
+    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
+    .toBe(true);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  mediaRequests = 0;
+  await page.reload();
+  await page.locator(".preview-stage").scrollIntoViewIfNeeded();
+  await expect(
+    page.getByRole("button", { name: "Reproduzir prévia", exact: true }),
+  ).toBeVisible();
+  expect(mediaRequests).toBe(0);
+  await page
+    .getByRole("button", { name: "Reproduzir prévia", exact: true })
+    .click();
+  await expect
+    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
+    .toBe(false);
+  failVideo = true;
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.reload();
+  await page.locator(".preview-stage").scrollIntoViewIfNeeded();
+  await expect(page.locator("[data-preview-status]")).toHaveText(
+    "Prévia indisponível no momento.",
   );
 });

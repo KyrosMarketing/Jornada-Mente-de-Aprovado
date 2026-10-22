@@ -4144,7 +4144,7 @@
     margin-top: 17px;
     letter-spacing: -0.04em;
   }
-  .featured-review figcaption > span:not(.eyebrow) {
+  .featured-review figcaption > span:not(.eyebrow):not(.review-monogram) {
     font-size: 11px;
     color: var(--sage);
     margin-top: 4px;
@@ -4263,6 +4263,350 @@
       font-size: 13px;
     }
     .offer-reassurance small {
+      font-size: 9px;
+    }
+  }
+}
+
+/* Refinamentos de hierarquia e apresentação, sem alterar a narrativa da LP. */
+@layer layout {
+  .hero .hero-promise {
+    font: 600 clamp(48px, 4.8vw, 72px) / 1.025 var(--display);
+    letter-spacing: -0.058em;
+    margin: 34px 0 0;
+  }
+  .hero-promise > span,
+  .hero-promise > em {
+    display: block;
+  }
+  .hero {
+    background: radial-gradient(ellipse at 78% 43%, #2b347c24, transparent 51%);
+  }
+  .product-hero {
+    background: transparent;
+  }
+  .product-hero::before {
+    content: "";
+    position: absolute;
+    inset: 5% -8% 2%;
+    background: radial-gradient(
+      ellipse at 48% 51%,
+      #2b347c4d,
+      #17406314 45%,
+      transparent 72%
+    );
+    pointer-events: none;
+  }
+  .product-hero .hero-photo {
+    mix-blend-mode: lighten;
+    mask-image:
+      linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent),
+      linear-gradient(180deg, transparent, #000 8%, #000 91%, transparent);
+    mask-composite: intersect;
+  }
+  .hero-price .hero-installment {
+    font-size: 8px;
+    line-height: 1.5;
+    margin-top: 5px;
+    white-space: nowrap;
+  }
+  .trust-strip {
+    border-block: 1px solid var(--line);
+    padding-block: 23px 18px;
+  }
+  .trust-strip ul {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+  }
+  .trust-strip li {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 20px;
+    border-left: 1px solid #505979;
+  }
+  .trust-strip li:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .trust-strip strong {
+    font: 500 14px/1.2 var(--display);
+  }
+  .trust-strip li span {
+    font-size: 9px;
+    color: var(--sage);
+  }
+  .trust-strip p {
+    font-size: 8px;
+    line-height: 1.5;
+    color: var(--sage);
+    margin-top: 16px;
+    text-align: right;
+  }
+  .product-preview {
+    margin-top: 66px;
+    padding-top: 48px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    align-items: center;
+    gap: 60px;
+  }
+  .preview-copy .eyebrow {
+    font-size: 8px;
+    color: var(--sage);
+  }
+  .preview-copy h3 {
+    font: 500 clamp(25px, 2.4vw, 36px) / 1.15 var(--display);
+    letter-spacing: -0.04em;
+    margin-top: 19px;
+  }
+  .preview-copy p {
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--sage);
+    max-width: 330px;
+    margin-top: 21px;
+  }
+  .preview-availability {
+    display: inline-block;
+    font-size: 9px;
+    color: var(--sage);
+    border-bottom: 1px solid #505979;
+    padding-bottom: 8px;
+    margin-top: 24px;
+  }
+  .preview-stage {
+    aspect-ratio: 16/9;
+    position: relative;
+    border: 1px solid #505979;
+    border-radius: 12px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 80%, #2b347c55, transparent 80%),
+      var(--forest);
+  }
+  .preview-fallback {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .preview-frame-icon {
+    color: var(--accent);
+    margin-bottom: 7px;
+  }
+  .preview-frame-icon svg {
+    width: 48px;
+    height: 40px;
+  }
+  .preview-fallback strong {
+    font: 500 17px/1.3 var(--display);
+    letter-spacing: -0.03em;
+  }
+  .preview-fallback > span:last-child {
+    font-size: 10px;
+    color: var(--sage);
+  }
+  .product-preview-video {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+  }
+  .preview-stage.is-ready .product-preview-video,
+  .preview-stage.has-poster .product-preview-video {
+    opacity: 1;
+  }
+  .preview-stage.is-ready .preview-fallback {
+    display: none;
+  }
+  .preview-stage.has-poster:not(.is-ready) .preview-fallback {
+    background: #10142d99;
+  }
+  .preview-toggle {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    z-index: 2;
+    border: 1px solid #657093;
+    color: var(--paper);
+    background: #10142de6;
+    font: 400 10px var(--body);
+    min-height: 36px;
+    padding: 8px 12px;
+  }
+  .preview-toggle[hidden] {
+    display: none;
+  }
+  .module-number::before,
+  .module-number::after,
+  .module summary::marker {
+    content: none;
+  }
+  .module-number {
+    min-width: 2ch;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .featured-review {
+    position: relative;
+    background: var(--paper);
+    color: var(--ink);
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 20px 55px #080b202e;
+    grid-template-columns: 0.28fr 1fr;
+    gap: 48px;
+    padding: 46px;
+  }
+  .review-monogram {
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    background: var(--brand-navy);
+    color: var(--paper);
+    border-radius: 50%;
+    font: 500 24px var(--display);
+    margin-bottom: 21px;
+  }
+  .featured-review .eyebrow,
+  .featured-review figcaption > span:not(.eyebrow):not(.review-monogram),
+  .featured-review figcaption p {
+    color: #555d72;
+  }
+  .featured-review blockquote {
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.85;
+  }
+  .featured-review blockquote::before {
+    content: "“";
+    display: block;
+    font:
+      90px/0.7 Georgia,
+      serif;
+    color: var(--brand-navy);
+    margin-bottom: 10px;
+  }
+  .final-section .final-assurance {
+    font-size: 10px;
+    line-height: 1.7;
+    color: var(--sage);
+    margin-top: 19px;
+  }
+}
+@layer responsive {
+  @media (max-width: 1100px) {
+    .hero .hero-promise {
+      font-size: clamp(39px, 4.65vw, 54px);
+    }
+  }
+  @media (max-width: 700px) {
+    .hero .hero-promise {
+      font-size: clamp(41px, 10.8vw, 61px);
+      line-height: 1.035;
+      margin-top: 27px;
+    }
+    .trust-strip {
+      padding-block: 20px 16px;
+    }
+    .trust-strip ul {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px 10px;
+    }
+    .trust-strip li {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .trust-strip strong {
+      font-size: 12px;
+    }
+    .trust-strip li span {
+      font-size: 8px;
+    }
+    .trust-strip p {
+      text-align: left;
+      font-size: 8px;
+      margin-top: 19px;
+    }
+    .product-preview {
+      grid-template-columns: 1fr;
+      gap: 27px;
+      margin-top: 40px;
+      padding-top: 35px;
+    }
+    .preview-copy h3 {
+      font-size: 30px;
+    }
+    .preview-copy p {
+      max-width: none;
+    }
+    .preview-stage {
+      border-radius: 8px;
+    }
+    .preview-fallback {
+      gap: 8px;
+      padding: 18px;
+    }
+    .preview-frame-icon svg {
+      width: 35px;
+      height: 30px;
+    }
+    .preview-fallback strong {
+      font-size: 15px;
+    }
+    .preview-fallback > span:last-child {
+      font-size: 9px;
+    }
+    .featured-review {
+      grid-template-columns: 1fr;
+      gap: 26px;
+      padding: 27px 24px;
+    }
+    .featured-review figcaption {
+      padding-bottom: 24px;
+      border-color: #bec2c9;
+    }
+    .review-monogram {
+      width: 42px;
+      height: 42px;
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+    .featured-review blockquote {
+      font-size: 14px;
+      line-height: 1.9;
+    }
+    .featured-review blockquote::before {
+      font-size: 75px;
+    }
+    .mobile-buy {
+      background: var(--accent);
+      color: var(--ink);
+      border-top-color: #ffc76f;
+      box-shadow: 0 -8px 30px #10142d26;
+    }
+    .mobile-buy > div > span,
+    .mobile-buy small {
+      color: var(--ink);
+    }
+    .mobile-buy > .button {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .final-section .final-assurance {
       font-size: 9px;
     }
   }

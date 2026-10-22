@@ -23,6 +23,12 @@ export const offer = {
     context:
       "Apresentação institucional de Mateus Tiujo e do Preparamente. Este vídeo não é uma apresentação específica da Jornada Mente de Aprovado.",
   },
+  // Add the real 10–20s platform recording here. No simulated product screens.
+  productPreview: {
+    mp4: null as string | null,
+    webm: null as string | null,
+    poster: null as string | null,
+  },
   HOTMART_CHECKOUT_URL: "https://pay.hotmart.com/G108112534E",
   accessPeriod: null as string | null,
   guarantee: "7 dias de garantia, conforme as condições da Hotmart." as

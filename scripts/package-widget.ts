@@ -7,6 +7,15 @@ import {
 } from "node:fs";
 import { basename, extname, join, resolve } from "node:path";
 
+import { offer } from "../src/offer";
+
+// Keep recordings outside the HTML, preserving lazy loading in the WordPress widget.
+for (const source of [offer.productPreview.mp4, offer.productPreview.webm]) {
+  if (source && !source.startsWith("https://"))
+    throw new Error(
+      "No widget, configure o vídeo com uma URL HTTPS do WordPress/CDN para preservar o carregamento sob demanda.",
+    );
+}
 const dist = resolve("dist");
 let html = readFileSync(join(dist, "index.html"), "utf8");
 if (!html.includes('content="noindex,nofollow"'))

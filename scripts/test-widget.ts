@@ -66,8 +66,13 @@ try {
     const frame = page.frameLocator("iframe");
     await expect(page.locator("iframe")).toHaveAttribute("allow", /fullscreen/);
     await expect(frame.locator("h1")).toHaveAccessibleName(
-      "Jornada Mente de Aprovado",
+      "Você estudou para a prova. Mas preparou sua mente?",
     );
+    await expect(frame.locator(".trust-strip li")).toHaveCount(5);
+    await expect(frame.locator(".preview-fallback")).toContainText(
+      "Vídeo de apresentação em breve.",
+    );
+    await expect(frame.locator(".product-preview-video")).toHaveCount(0);
     await expect(frame.locator(".offer-installment")).toHaveText(
       /12x de R\$\s6,93/,
     );

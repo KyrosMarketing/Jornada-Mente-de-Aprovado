@@ -75,7 +75,7 @@ try {
     assert.equal((await page.goto(url))?.status(), 200);
     await page.evaluate(() => document.fonts.ready);
     await expect(page.locator("h1")).toHaveAccessibleName(
-      "Jornada Mente de Aprovado",
+      "Você estudou para a prova. Mas preparou sua mente?",
     );
     assert.equal(await page.locator("[data-module]").count(), 5);
     assert(

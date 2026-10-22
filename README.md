@@ -4,7 +4,7 @@ Landing page da Preparamente, em português, com Vite, TypeScript e CSS. Sem fra
 
 ## Usar no widget HTML do WordPress / Elementor
 
-Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 651 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
+Não é necessário instalar plugin nem acessar o hPanel. A versão para widget inclui CSS, JavaScript, fotografias e fontes no próprio `distribution/jornada-widget.html` (cerca de 660 KiB). O pequeno código de incorporação carrega esse arquivo de uma revisão fixa do repositório e o apresenta em um iframe, isolando o visual do tema.
 
 1. Crie uma página em rascunho no WordPress e abra no Elementor.
 2. Selecione o layout **Elementor Canvas**, use uma seção com largura total e padding/margens zero.
@@ -118,3 +118,15 @@ Na hero mobile, o mockup ocupa a largura disponível com altura automática e pr
 A hero usa fluxo de blocos no mobile: imagem, rodapé da hero e esteira ocupam espaços consecutivos. Os testes conferem a separação durante carregamento lento e após redimensionamento. A execução direta do WebKit ficou indisponível neste ambiente por bloqueio do download do navegador.
 
 Refinamento da reta final: copy voltada à execução sob pressão; exames ENEM, Fuvest, Unicamp e UFPR; biografia resumida conforme texto de Mateus; seção de adequação ao curso; relato integral de Rosana (@rosana_srs) em destaque, sem nota de estrelas inventada; sete perguntas frequentes, incluindo compra por responsável. O vídeo, os módulos e o fluxo de checkout foram preservados.
+
+## Prévia da plataforma
+
+A apresentação do produto tem um espaço de vídeo reservado, sem simulação de telas. Quando Mateus enviar a gravação real de 10–20 segundos, informe `productPreview.mp4` e/ou `productPreview.webm` em `src/offer.ts`, além de um `productPreview.poster` opcional. Prefira vídeo curto, comprimido e sem áudio; use MP4/H.264 para compatibilidade e WebM como alternativa. O componente seleciona WebM antes de MP4 quando ambos forem fornecidos.
+
+No widget WordPress, use URLs HTTPS dos arquivos enviados à Biblioteca de Mídia/um CDN. O empacotador recusa vídeos com caminhos locais nesse formato para não incluir megabytes no HTML nem quebrar o carregamento sob demanda. No site estático, caminhos locais também funcionam. O poster pode ser uma imagem HTTPS ou um WebP local em `public/images/`.
+
+O vídeo só recebe suas fontes ao chegar perto da seção. A reprodução usa autoplay silencioso, loop e playsinline; há um botão discreto para pausar. Fora da seção, o vídeo pausa. Com movimento reduzido, só carrega/reproduz após clique. O placeholder permanece na ausência de gravação e reaparece se o vídeo falhar. O vídeo institucional do Mateus continua separado.
+
+A fixture MP4 em `tests/fixtures/preview-test.mp4` é apenas um quadro de cor para testes de reprodução; não integra os arquivos publicados nem simula a plataforma. O teste cobre carregamento sob demanda, pausa, movimento reduzido e falha de mídia.
+
+Nesta rodada, a headline de dor passou a ser o H1; o nome do produto permanece no header e no mockup. A integração do fundo usa composição CSS e glow radial, sem modificar o mockup. Foram incluídos a faixa de confiança, o destaque editorial da Rosana e uma pergunta adicional de acesso/garantia. A condição de parcelamento foi mantida conforme a informação fornecida; a consulta ao checkout neste ambiente retorna USD por localização e não confirma as condições brasileiras.
