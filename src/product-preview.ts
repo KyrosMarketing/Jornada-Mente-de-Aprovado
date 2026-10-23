@@ -56,7 +56,7 @@ export function initializeProductPreview() {
     void video.play().catch(() => {
       if (!unavailable) {
         toggle.hidden = false;
-        toggle.textContent = "▶ Reproduzir apresentação";
+        toggle.setAttribute("aria-label", "Reproduzir apresentação");
       }
     });
   });
