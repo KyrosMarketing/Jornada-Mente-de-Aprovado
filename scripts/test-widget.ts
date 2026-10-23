@@ -187,7 +187,7 @@ try {
     await expect(frame.locator(".offer-reassurance")).toContainText(
       "7 dias de garantia",
     );
-    await expect(frame.locator(".audience-card li")).toHaveCount(7);
+    await expect(frame.locator(".audience-card li")).toHaveCount(8);
     await frame.locator('[data-module="2"] summary').click();
     await expect(frame.locator("#visual-word")).toHaveText("RESPIRE.");
     await frame

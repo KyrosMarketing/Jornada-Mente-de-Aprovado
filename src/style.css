@@ -4118,11 +4118,9 @@
   .audience-limits {
     border-top-color: var(--sage);
   }
-  .audience-minus {
-    flex-shrink: 0;
-    width: 18px;
-    color: var(--sage);
-    text-align: center;
+  .audience-limits .audience-cross {
+    flex: 0 0 18px;
+    color: #f87171;
   }
   .featured-review {
     display: grid;

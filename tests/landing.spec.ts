@@ -527,7 +527,7 @@ test("refinamento comercial mantém relato integral, adequação ao curso e cond
     page.locator(".audience-card").first().locator("li"),
   ).toHaveCount(4);
   await expect(page.locator(".audience-card").last().locator("li")).toHaveCount(
-    3,
+    4,
   );
   await expect(page.locator(".audience-limits")).toContainText(
     "acompanhamento psicológico adequado",
