@@ -121,7 +121,7 @@ Refinamento da reta final: copy voltada à execução sob pressão; exames ENEM,
 
 ## Prévia da plataforma
 
-A apresentação do produto recebe o vídeo e a capa oficiais em `productPreview.mp4` (e/ou `productPreview.webm`) e `productPreview.poster`, em `src/offer.ts`. Sem vídeo configurado, o espaço reservado continua visível. Use MP4/H.264 para compatibilidade; WebM é selecionado primeiro quando ambos forem fornecidos.
+A capa oficial usa o link HTTPS da Biblioteca de Mídia do WordPress. O vídeo fornecido em HEVC foi convertido integralmente para H.264/AAC, 1280×720 e MP4 com faststart, para compatibilidade nos navegadores. A cópia otimizada fica em `public/videos/jornada-apresentacao.mp4`, com entrega HTTPS fixada em uma revisão do GitHub; o arquivo original permanece na Biblioteca de Mídia do WordPress. A apresentação do produto recebe esses arquivos em `productPreview.mp4` (e/ou `productPreview.webm`) e `productPreview.poster`, em `src/offer.ts`. Sem vídeo configurado, o espaço reservado continua visível. Use MP4/H.264 para compatibilidade; WebM é selecionado primeiro quando ambos forem fornecidos.
 
 No widget WordPress, use URLs HTTPS dos arquivos enviados à Biblioteca de Mídia/um CDN. O empacotador recusa vídeos com caminhos locais nesse formato para não incluir megabytes no HTML nem quebrar o carregamento sob demanda. No site estático, caminhos locais também funcionam. A capa pode ser uma imagem HTTPS ou um WebP local em `public/images/`.
 

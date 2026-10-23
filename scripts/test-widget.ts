@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createServer } from "node:http";
 import { chromium, expect } from "@playwright/test";
+import { offer } from "../src/offer";
 
 const html = readFileSync(resolve("distribution/jornada-widget.html"), "utf8");
 const snippet = readFileSync(
@@ -42,6 +43,15 @@ try {
         body: html,
       }),
   );
+  let presentationRequests = 0;
+  // Exercise the actual optimized recording inside the iframe; delivery is checked separately over HTTPS.
+  await page.route(offer.productPreview.mp4!, (route) => {
+    presentationRequests++;
+    return route.fulfill({
+      contentType: "video/mp4",
+      body: readFileSync(resolve("public/videos/jornada-apresentacao.mp4")),
+    });
+  });
   const unexpected: string[] = [];
   const errors: string[] = [];
   page.on("request", (req) => {
@@ -52,6 +62,8 @@ try {
         .startsWith(
           "https://raw.githubusercontent.com/KyrosMarketing/Jornada-Mente-de-Aprovado/",
         ) &&
+      req.url() !== offer.productPreview.poster &&
+      req.url() !== offer.productPreview.mp4 &&
       !req.url().startsWith("data:") &&
       !req.url().startsWith("about:")
     )
@@ -59,6 +71,7 @@ try {
   });
   page.on("pageerror", (e) => errors.push(e.message));
   for (const width of [390, 1440]) {
+    presentationRequests = 0;
     await page.setViewportSize({ width, height: 900 });
     await page.goto(
       `http://127.0.0.1:${address.port}/pagina-wordpress/?utm_source=instagram&utm_campaign=widget`,
@@ -69,10 +82,50 @@ try {
       "Você estudou para a prova. Mas preparou sua mente?",
     );
     await expect(frame.locator(".trust-strip li")).toHaveCount(5);
-    await expect(frame.locator(".preview-fallback")).toContainText(
-      "Vídeo de apresentação em breve.",
+    const presentation = frame.locator(".product-preview-video");
+    await expect(presentation).toHaveAttribute(
+      "data-mp4",
+      offer.productPreview.mp4!,
     );
-    await expect(frame.locator(".product-preview-video")).toHaveCount(0);
+    await frame.locator(".preview-stage").scrollIntoViewIfNeeded();
+    await expect(presentation).toHaveAttribute(
+      "poster",
+      offer.productPreview.poster!,
+    );
+    await expect(
+      frame.getByRole("button", { name: "Assistir à apresentação" }),
+    ).toBeVisible();
+    await expect(presentation.locator("source")).toHaveCount(0);
+    assert.equal(presentationRequests, 0);
+    await frame
+      .getByRole("button", { name: "Assistir à apresentação" })
+      .click();
+    await expect
+      .poll(() =>
+        presentation.evaluate(
+          (video: HTMLVideoElement) =>
+            !video.paused &&
+            video.currentTime > 0.3 &&
+            video.videoWidth === 1280,
+        ),
+      )
+      .toBe(true);
+    assert(
+      await presentation.evaluate(
+        (video: HTMLVideoElement) =>
+          video.controls &&
+          video.playsInline &&
+          !video.muted &&
+          !video.autoplay,
+      ),
+    );
+    const stageBox = await frame.locator(".preview-stage").boundingBox();
+    assert(
+      stageBox && Math.abs(stageBox.width / stageBox.height - 16 / 9) < 0.02,
+    );
+    await frame
+      .locator("body")
+      .evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
     await expect(frame.locator(".offer-installment")).toHaveText(
       /12x de R\$\s6,93/,
     );

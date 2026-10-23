@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 import { buildCheckoutUrl } from "../src/checkout";
+import { offer } from "../src/offer";
 
 test("encaminha atribuição sem perder parâmetros comerciais nem aceitar destinos falsos", () => {
   const url = new URL(
@@ -564,7 +565,7 @@ test("refinamento comercial mantém relato integral, adequação ao curso e cond
   );
 });
 
-test("hierarquia da hero, confiança, placeholder e FAQ de garantia", async ({
+test("hierarquia da hero, confiança, apresentação oficial e FAQ de garantia", async ({
   page,
 }) => {
   await page.goto("/");
@@ -576,9 +577,13 @@ test("hierarquia da hero, confiança, placeholder e FAQ de garantia", async ({
   await expect(page.locator(".trust-strip")).toContainText(
     "Acesso liberado após a confirmação do pagamento.",
   );
-  await expect(page.locator(".preview-stage video")).toHaveCount(0);
-  await expect(page.locator(".preview-fallback")).toContainText(
-    "Vídeo de apresentação em breve.",
+  await expect(page.locator(".preview-stage video")).toHaveAttribute(
+    "data-mp4",
+    offer.productPreview.mp4!,
+  );
+  await expect(page.locator(".preview-stage video")).toHaveAttribute(
+    "data-poster",
+    offer.productPreview.poster!,
   );
   await expect(page.locator(".module-number")).toHaveText([
     "01",
@@ -613,14 +618,8 @@ test("apresentação usa capa, carrega por clique com som e controles e mantém 
   const fixture = readFileSync(
     new URL("./fixtures/preview-test.mp4", import.meta.url),
   );
-  await page.route("**/src/offer.ts*", async (route) => {
-    const response = await route.fetch();
-    const body = (await response.text())
-      .replace(/mp4:\s*null/, 'mp4: "https://media.example.test/preview.mp4"')
-      .replace(/poster:\s*null/, 'poster: "images/jornada-produto-640.webp"');
-    await route.fulfill({ response, body });
-  });
-  await page.route("https://media.example.test/preview.mp4", (route) => {
+  // The tiny playback fixture exercises the official media URL without downloading the full presentation.
+  await page.route(offer.productPreview.mp4!, (route) => {
     mediaRequests++;
     return route.fulfill({
       contentType: "video/mp4",
@@ -641,7 +640,7 @@ test("apresentação usa capa, carrega por clique com som e controles e mantém 
     await page.reload();
     mediaRequests = 0;
     await page.locator(".preview-stage").scrollIntoViewIfNeeded();
-    await expect(video).toHaveAttribute("poster", /jornada-produto-640.webp/);
+    await expect(video).toHaveAttribute("poster", offer.productPreview.poster!);
     await expect(page.locator(".preview-fallback")).toBeHidden();
     const play = page.getByRole("button", { name: "Assistir à apresentação" });
     await expect(play).toBeVisible();

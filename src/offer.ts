@@ -25,9 +25,14 @@ export const offer = {
   },
   // Official presentation: HTTPS media URLs for the WordPress widget.
   productPreview: {
-    mp4: null as string | null,
+    mp4: "https://raw.githubusercontent.com/KyrosMarketing/Jornada-Mente-de-Aprovado/17b50f77f0412abf929ce26b8071c5ccf7cc0337/public/videos/jornada-apresentacao.mp4" as
+      | string
+      | null,
     webm: null as string | null,
-    poster: null as string | null,
+    poster:
+      "https://mentoriapreparamente.com.br/wp-content/uploads/2026/10/capa-video-jornada-c.png" as
+        | string
+        | null,
   },
   HOTMART_CHECKOUT_URL: "https://pay.hotmart.com/G108112534E",
   accessPeriod: null as string | null,
