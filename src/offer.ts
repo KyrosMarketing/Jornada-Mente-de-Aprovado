@@ -23,7 +23,7 @@ export const offer = {
     context:
       "Apresentação institucional de Mateus Tiujo e do Preparamente. Este vídeo não é uma apresentação específica da Jornada Mente de Aprovado.",
   },
-  // Add the real 10–20s platform recording here. No simulated product screens.
+  // Official presentation: HTTPS media URLs for the WordPress widget.
   productPreview: {
     mp4: null as string | null,
     webm: null as string | null,

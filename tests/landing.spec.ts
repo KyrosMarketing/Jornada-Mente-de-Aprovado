@@ -605,7 +605,7 @@ test("hierarquia da hero, confiança, placeholder e FAQ de garantia", async ({
   );
 });
 
-test("vídeo futuro carrega sob demanda, respeita pausa e movimento reduzido e mantém fallback", async ({
+test("apresentação usa capa, carrega por clique com som e controles e mantém fallback", async ({
   page,
 }) => {
   let mediaRequests = 0;
@@ -615,10 +615,9 @@ test("vídeo futuro carrega sob demanda, respeita pausa e movimento reduzido e m
   );
   await page.route("**/src/offer.ts*", async (route) => {
     const response = await route.fetch();
-    const body = (await response.text()).replace(
-      /mp4:\s*null/,
-      'mp4: "https://media.example.test/preview.mp4"',
-    );
+    const body = (await response.text())
+      .replace(/mp4:\s*null/, 'mp4: "https://media.example.test/preview.mp4"')
+      .replace(/poster:\s*null/, 'poster: "images/jornada-produto-640.webp"');
     await route.fulfill({ response, body });
   });
   await page.route("https://media.example.test/preview.mp4", (route) => {
@@ -629,65 +628,54 @@ test("vídeo futuro carrega sob demanda, respeita pausa e movimento reduzido e m
     });
   });
   await page.goto("/");
+  const direction = page.locator(".product-direction");
+  await expect(direction).toHaveText("Veja o que você vai trabalhar");
+  expect(await direction.evaluate((el) => el.tagName)).toBe("SPAN");
+  await expect(direction).not.toHaveAttribute("href");
+  await expect(direction).toHaveCSS("border-bottom-width", "0px");
+  await expect(direction.locator("svg")).toHaveCount(1);
   const video = page.locator(".product-preview-video");
-  await expect(video).toHaveCount(1);
-  expect(mediaRequests).toBe(0);
   await expect(video).toHaveAttribute("preload", "none");
-  await page.locator(".preview-stage").scrollIntoViewIfNeeded();
-  await expect.poll(() => mediaRequests).toBeGreaterThan(0);
-  await expect
-    .poll(() =>
-      video.evaluate((v: HTMLVideoElement) => !v.paused && v.readyState >= 2),
-    )
-    .toBe(true);
-  expect(
-    await video.evaluate(
-      (v: HTMLVideoElement) =>
-        v.muted && v.loop && v.playsInline && !v.controls,
-    ),
-  ).toBe(true);
-  await page
-    .getByRole("button", { name: "Pausar prévia", exact: true })
-    .click();
-  await expect
-    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
-    .toBe(true);
-  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
-  await page.locator(".preview-stage").scrollIntoViewIfNeeded();
-  await expect
-    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
-    .toBe(true);
-  await page
-    .getByRole("button", { name: "Reproduzir prévia", exact: true })
-    .click();
-  await expect
-    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
-    .toBe(false);
-  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
-  await expect
-    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
-    .toBe(true);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  mediaRequests = 0;
-  await page.reload();
-  await page.locator(".preview-stage").scrollIntoViewIfNeeded();
-  await expect(
-    page.getByRole("button", { name: "Reproduzir prévia", exact: true }),
-  ).toBeVisible();
-  expect(mediaRequests).toBe(0);
-  await page
-    .getByRole("button", { name: "Reproduzir prévia", exact: true })
-    .click();
-  await expect
-    .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
-    .toBe(false);
+  for (const reducedMotion of ["no-preference", "reduce"] as const) {
+    await page.emulateMedia({ reducedMotion });
+    await page.reload();
+    mediaRequests = 0;
+    await page.locator(".preview-stage").scrollIntoViewIfNeeded();
+    await expect(video).toHaveAttribute("poster", /jornada-produto-640.webp/);
+    await expect(page.locator(".preview-fallback")).toBeHidden();
+    const play = page.getByRole("button", { name: "Assistir à apresentação" });
+    await expect(play).toBeVisible();
+    expect(mediaRequests).toBe(0);
+    await play.click();
+    await expect
+      .poll(() =>
+        video.evaluate((v: HTMLVideoElement) => !v.paused && v.readyState >= 2),
+      )
+      .toBe(true);
+    expect(
+      await video.evaluate(
+        (v: HTMLVideoElement) =>
+          !v.muted && !v.loop && !v.autoplay && v.playsInline && v.controls,
+      ),
+    ).toBe(true);
+    await expect(play).toBeHidden();
+    await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+    await expect
+      .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
+      .toBe(true);
+    await page.locator(".preview-stage").scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => video.evaluate((v: HTMLVideoElement) => v.paused))
+      .toBe(true);
+  }
   failVideo = true;
-  await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.reload();
   await page.locator(".preview-stage").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Assistir à apresentação" }).click();
   await expect(page.locator("[data-preview-status]")).toHaveText(
-    "Prévia indisponível no momento.",
+    "Apresentação indisponível no momento.",
   );
+  await expect(page.locator(".preview-toggle")).toBeHidden();
 });
 
 test("degradê acompanha os limites reais do mockup também no desktop", async ({

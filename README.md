@@ -121,12 +121,12 @@ Refinamento da reta final: copy voltada à execução sob pressão; exames ENEM,
 
 ## Prévia da plataforma
 
-A apresentação do produto tem um espaço de vídeo reservado, sem simulação de telas. Quando Mateus enviar a gravação real de 10–20 segundos, informe `productPreview.mp4` e/ou `productPreview.webm` em `src/offer.ts`, além de um `productPreview.poster` opcional. Prefira vídeo curto, comprimido e sem áudio; use MP4/H.264 para compatibilidade e WebM como alternativa. O componente seleciona WebM antes de MP4 quando ambos forem fornecidos.
+A apresentação do produto recebe o vídeo e a capa oficiais em `productPreview.mp4` (e/ou `productPreview.webm`) e `productPreview.poster`, em `src/offer.ts`. Sem vídeo configurado, o espaço reservado continua visível. Use MP4/H.264 para compatibilidade; WebM é selecionado primeiro quando ambos forem fornecidos.
 
-No widget WordPress, use URLs HTTPS dos arquivos enviados à Biblioteca de Mídia/um CDN. O empacotador recusa vídeos com caminhos locais nesse formato para não incluir megabytes no HTML nem quebrar o carregamento sob demanda. No site estático, caminhos locais também funcionam. O poster pode ser uma imagem HTTPS ou um WebP local em `public/images/`.
+No widget WordPress, use URLs HTTPS dos arquivos enviados à Biblioteca de Mídia/um CDN. O empacotador recusa vídeos com caminhos locais nesse formato para não incluir megabytes no HTML nem quebrar o carregamento sob demanda. No site estático, caminhos locais também funcionam. A capa pode ser uma imagem HTTPS ou um WebP local em `public/images/`.
 
-O vídeo só recebe suas fontes ao chegar perto da seção. A reprodução usa autoplay silencioso, loop e playsinline; há um botão discreto para pausar. Fora da seção, o vídeo pausa. Com movimento reduzido, só carrega/reproduz após clique. O placeholder permanece na ausência de gravação e reaparece se o vídeo falhar. O vídeo institucional do Mateus continua separado.
+A capa aparece ao chegar perto da seção. O vídeo só recebe suas fontes após clique em “Assistir à apresentação”, com áudio, controles nativos e reprodução no próprio quadro (playsinline). Não há autoplay nem loop, inclusive com movimento reduzido. Fora da seção ou com a aba oculta, o vídeo pausa e aguarda ação do visitante para continuar. Uma mensagem reaparece se a mídia falhar. O vídeo institucional do Mateus continua separado.
 
-A fixture MP4 em `tests/fixtures/preview-test.mp4` é apenas um quadro de cor para testes de reprodução; não integra os arquivos publicados nem simula a plataforma. O teste cobre carregamento sob demanda, pausa, movimento reduzido e falha de mídia.
+A fixture MP4 em `tests/fixtures/preview-test.mp4` é apenas um quadro de cor para testes de reprodução; não integra os arquivos publicados nem simula a plataforma. O teste cobre capa, carregamento por clique, controles, pausa, movimento reduzido e falha de mídia.
 
 Nesta rodada, a headline de dor passou a ser o H1; o nome do produto permanece no header e no mockup. A integração do fundo usa composição CSS e glow radial, sem modificar o mockup. Foram incluídos a faixa de confiança, o destaque editorial da Rosana e uma pergunta adicional de acesso/garantia. A condição de parcelamento foi mantida conforme a informação fornecida; a consulta ao checkout neste ambiente retorna USD por localização e não confirma as condições brasileiras.

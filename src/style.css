@@ -708,6 +708,10 @@
     letter-spacing: 0.1em;
     color: var(--sage);
   }
+  .product-copy .product-direction {
+    border-bottom: 0;
+    text-decoration: none;
+  }
   .product-copy .text-link {
     color: var(--accent);
     margin-top: 30px;
@@ -4435,20 +4439,24 @@
   .preview-stage.is-ready .preview-fallback {
     display: none;
   }
-  .preview-stage.has-poster:not(.is-ready) .preview-fallback {
-    background: #10142d99;
+  .preview-stage.has-poster .preview-fallback {
+    display: none;
   }
   .preview-toggle {
     position: absolute;
-    right: 15px;
-    bottom: 15px;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
     z-index: 2;
-    border: 1px solid #657093;
-    color: var(--paper);
-    background: #10142de6;
-    font: 400 10px var(--body);
-    min-height: 36px;
-    padding: 8px 12px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    color: var(--ink);
+    background: var(--accent);
+    font: 600 12px var(--body);
+    min-height: 44px;
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+    padding: 10px 16px;
   }
   .preview-toggle[hidden] {
     display: none;
