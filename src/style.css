@@ -1468,6 +1468,24 @@
     border-top: 1px solid var(--line);
     padding-block: 45px 35px;
   }
+  .footer-credit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 24px;
+    color: var(--sage);
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  /* The SVG viewport frames the transparent padding in the original PNG. */
+  .footer-developer-logo {
+    display: block;
+    flex-shrink: 0;
+    width: 70px;
+    height: 26px;
+    filter: brightness(0) invert(1);
+  }
   .footer-top {
     display: flex;
     justify-content: space-between;

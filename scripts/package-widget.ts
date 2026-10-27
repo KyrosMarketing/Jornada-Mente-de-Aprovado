@@ -23,6 +23,7 @@ if (!html.includes('content="noindex,nofollow"'))
 const mime: Record<string, string> = {
   ".woff2": "font/woff2",
   ".webp": "image/webp",
+  ".png": "image/png",
   ".svg": "image/svg+xml",
 };
 const dataUri = (file: string) =>
@@ -47,7 +48,7 @@ html = html.replace(/<link\b[^>]*rel="stylesheet"[^>]*>/g, (tag) => {
 });
 const images = Object.fromEntries(
   readdirSync(join(dist, "images"))
-    .filter((name) => /\.(webp|svg)$/.test(name))
+    .filter((name) => /\.(webp|png|svg)$/.test(name))
     .map((name) => [`images/${name}`, dataUri(join(dist, "images", name))]),
 );
 html = html.replace(
