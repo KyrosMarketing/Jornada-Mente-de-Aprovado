@@ -1478,6 +1478,9 @@
     font-size: 10px;
     line-height: 1.5;
   }
+  .footer-credit > span {
+    transform: translateY(5px);
+  }
   /* The SVG viewport frames the transparent padding in the original PNG. */
   .footer-developer-logo {
     display: block;
